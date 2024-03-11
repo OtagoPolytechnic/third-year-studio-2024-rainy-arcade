@@ -7,10 +7,10 @@ const port = 3001; // Ensure this is different from your React app's port
 // Configure multer for file storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/') // Ensure the 'uploads' folder exists in your project directory
+    cb(null, 'C:/Users/mcivtj1/Desktop/third-year-studio-2024-rainy-arcade/uploads') 
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)) // Use the file's original extension
+    cb(null, Date.now() + path.extname(file.originalname)) 
   }
 });
 
