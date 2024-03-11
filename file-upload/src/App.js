@@ -1,22 +1,35 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   // State to store selected file details
-  const [fileInfo, setFileInfo] = useState({ name: '', size: 0 });
+  const [fileInfo,] = useState({ name: '', size: 0 });
 
   // Function to handle file selection
   const handleFileChange = (event) => {
     const file = event.target.files[0]; // Get the first file
     if (file) {
-      // Update the fileInfo state
-      setFileInfo({
-        name: file.name,
-        size: file.size,
+      const formData = new FormData();
+      formData.append('file', file);
+  
+      // Send the file to the backend
+      fetch('http://localhost:3001/upload', {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log(data); // "File uploaded successfully"
+        // Update the fileInfo state here if needed
+      })
+      .catch(error => {
+        console.error(error);
       });
     }
   };
+  
+
+  
 
   return (
     <div className="App">
