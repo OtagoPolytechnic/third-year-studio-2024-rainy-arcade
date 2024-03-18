@@ -17,7 +17,7 @@ function App() {
       formData.append('file', file);
   
       // Send the file to the backend
-      fetch('http://localhost:3001/upload', {
+      fetch('http://localhost:3001/upload_server', {
         method: 'POST',
         body: formData,
       })
