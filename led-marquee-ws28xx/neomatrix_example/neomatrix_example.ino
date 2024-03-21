@@ -1,16 +1,15 @@
-#include <Adafruit_NeoMatrix.h>
 #include <Adafruit_GFX.h>
+#include <Adafruit_NeoMatrix.h>
+#include <Adafruit_NeoPixel.h>
 
-#define NEOPIXEL_PIN    3  // D2 for NodeMCU
+#define NEOPIXEL_PIN    6  // D2 for NodeMCU
 #define NCOLUMNS        64 // number of pixel columns
 #define NHEIGHT         8  // number of pixel height
 #define CHAR_WIDTH      6  // font width
 
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(NCOLUMNS, NHEIGHT, NEOPIXEL_PIN,
-  NEO_MATRIX_TOP  + NEO_MATRIX_LEFT + NEO_MATRIX_COLUMNS + 
+  NEO_MATRIX_TOP  + NEO_MATRIX_RIGHT + NEO_MATRIX_COLUMNS + 
   NEO_MATRIX_ZIGZAG, NEO_GRB + NEO_KHZ800);
-
-const int ESP_BUILTIN_LED = 2;
 
 byte red_random = 0;
 byte green_random = 0;
@@ -19,7 +18,8 @@ byte blue_random = 0;
 // ============================== setup ============================================
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
+  Serial.setTimeout(500);
 
   Serial.println("Booting");
   Serial.println("Ready");
@@ -68,6 +68,7 @@ void Send_Text() {
 }
 
 void Send_Text2(String inputstr) {
+  Serial.println("Send_Text2");
 
   Neomatrix_random_color();
   Neomatrix_scrolltext(inputstr ,red_random, green_random, blue_random);
