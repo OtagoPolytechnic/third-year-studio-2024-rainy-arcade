@@ -1,41 +1,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const SerialPort = require('serialport');
-const Readline = SerialPort.parsers.Readline;
+const cors = require('cors');
 
 const app = express();
+const PORT = process.env.PORT || 3002;
+
+// Middleware setup
 app.use(bodyParser.json());
+app.use(cors());
 
-//port might need to be changed to match the Arduino 
-const port = new SerialPort('/dev/ttyACM0', {
-  baudRate: 9600 // baud rate needs to match on arduino 
-});
-
-const parser = port.pipe(new Readline({ delimiter: '\n' }));
-
-// gets data from react app
-app.post('/send-data', (req, res) => {
+// Route to handle data send
+app.post('/data-send', (req, res) => {
   const { name, color } = req.body;
-
-  // convert hex color to R, G, B components
-  const rgb = hexToRgb(color);
-
-  // format the data for the Arduino
-  const dataToSend = `${name},${rgb.r},${rgb.g},${rgb.b}\n`; 
-  port.write(dataToSend);
+  console.log(`Received data - Name: ${name}, Color: ${color}`);
   res.sendStatus(200);
 });
 
-// hex to RGB
-function hexToRgb(hex) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : null;
-}
-
-app.listen(3002, () => {
-  console.log('SerialServer listening on port 3002');
+// Server listening
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });

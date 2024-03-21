@@ -17,7 +17,7 @@ function App() {
       formData.append('file', file);
   
       // Send the file to the backend
-      fetch('http://localhost:3001/upload_server', {
+      fetch('http://localhost:3001/upload', {
         method: 'POST',
         body: formData,
       })
@@ -43,7 +43,7 @@ const sendData = async (name, color) => {
   // You might need to convert the RGB color into a format the Arduino understands
   const data = { name, color };
 
-  const response = await fetch('http://localhost:3002/send-data', { // Assuming SerialServer is on port 3002
+  const response = await fetch('http://localhost:3002/data-send', { // Assuming SerialServer is on port 3002
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
