@@ -3,7 +3,7 @@ void Neopixel_Initial() {
   delay(2000);   // so no big surge of current at the beginning
   matrix.begin(); 
   matrix.setTextWrap(true); 
-  matrix.setBrightness(100);  // from 0 to 255
+  matrix.setBrightness(255);  // from 0 to 255
   matrix.setTextColor(matrix.Color(155, 0, 0));
   matrix.fillScreen(0);
   matrix.setCursor(0, 0);
@@ -32,7 +32,7 @@ void Neomatrix_scrolltext(String instr, byte R, byte G, byte B) {
 
     matrix.print(instr);
     matrix.show();
-    delay(5);
+    delay(10);
   }
 }
 
@@ -76,6 +76,6 @@ void Neomatrix_scrolltext_random_eachstep(String instr) {
     matrix.print(instr);
 
     matrix.show();
-    delay(5);
+    delay(10);
   }
 }

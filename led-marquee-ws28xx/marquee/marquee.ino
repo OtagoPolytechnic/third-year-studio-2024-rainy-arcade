@@ -2,12 +2,12 @@
 #include <Adafruit_GFX.h>
 
 #define NEOPIXEL_PIN    6  // D2 for NodeMCU
-#define NCOLUMNS        64 // number of pixel columns
+#define NCOLUMNS        45 // number of pixel columns
 #define NHEIGHT         8  // number of pixel height
 #define CHAR_WIDTH      6  // font width
 
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(NCOLUMNS, NHEIGHT, NEOPIXEL_PIN,
-  NEO_MATRIX_TOP  + NEO_MATRIX_LEFT + NEO_MATRIX_COLUMNS + 
+  NEO_MATRIX_TOP  + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS + 
   NEO_MATRIX_ZIGZAG, NEO_GRB + NEO_KHZ800);
 
 
@@ -33,7 +33,6 @@ void loop() {
 
   Send_Text();
   //Send_Text2("Otago Polytechnic BIT");
-  Send_Text2("I");
   
 }
 
@@ -60,7 +59,7 @@ void Send_Text() {
      Neomatrix_text(Scroll_Text[1], r2, g2, b2, -x+NCOLUMNS-1 + (Scroll_Text[0].length() + 3)*CHAR_WIDTH);
    
      matrix.show();
-     delay(5);
+     delay(50);
   }
 }
 

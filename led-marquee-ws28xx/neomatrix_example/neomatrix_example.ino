@@ -8,7 +8,7 @@
 #define CHAR_WIDTH      6  // font width
 
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(NCOLUMNS, NHEIGHT, NEOPIXEL_PIN,
-  NEO_MATRIX_TOP  + NEO_MATRIX_RIGHT + NEO_MATRIX_COLUMNS + 
+  NEO_MATRIX_TOP  + NEO_MATRIX_LEFT + NEO_MATRIX_COLUMNS + 
   NEO_MATRIX_ZIGZAG, NEO_GRB + NEO_KHZ800);
 
 byte red_random = 0;
