@@ -59,7 +59,7 @@ void Send_Text() {
      Neomatrix_text(Scroll_Text[1], r2, g2, b2, -x+NCOLUMNS-1 + (Scroll_Text[0].length() + 3)*CHAR_WIDTH);
    
      matrix.show();
-     delay(50);
+     delay(75);
   }
 }
 
