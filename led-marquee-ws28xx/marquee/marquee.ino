@@ -11,16 +11,13 @@ String colorString;
 String textString;
 
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(NCOLUMNS, NHEIGHT, NEOPIXEL_PIN,
-  NEO_MATRIX_TOP  + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS + 
-  NEO_MATRIX_ZIGZAG, NEO_GRB + NEO_KHZ800);
+                                               NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS +
+                                                   NEO_MATRIX_ZIGZAG,
+                                               NEO_GRB + NEO_KHZ800);
 
-
-byte red_random = 0;
-byte green_random = 0;
-byte blue_random = 0;
-byte red = 0;
-byte green = 0;
-byte blue = 0;
+byte red = 255;
+byte green = 255;
+byte blue = 255;
 
 // ============================== setup ============================================
 
@@ -55,12 +52,15 @@ void loop()
 
 // ============== Send Text =================
 
-void Send_Text(String inputstr, red, green, blue)
+void Send_Text(String inputstr, byte red, byte green, byte blue)
 {
 
   Neomatrix_random_color();
   Neomatrix_scrolltext(inputstr, red, green, blue);
 }
+
+
+// ================== Convert HEX to RGB ========================
 
 void hexToRGB(String hex, byte &r, byte &g, byte &b)
 {
