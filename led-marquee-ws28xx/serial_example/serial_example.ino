@@ -1,6 +1,6 @@
-String temperature;
-String gas;
 String readString;
+String colorString;
+String textString;
 
 char IncomingData[13];
 
@@ -14,12 +14,10 @@ void loop() {
   while (Serial.available() > 0) {
     String IncomingData = Serial.readString();
     if (IncomingData.charAt(0) == 'T') {
-      Serial.println("T");
-      Serial.println(IncomingData.substring(1, IncomingData.length()));
+      textString = IncomingData.substring(1, IncomingData.length());
     }
-    else if (IncomingData.charAt(0) == 'C') {
-      Serial.println("C");
-      Serial.println(IncomingData.substring(1, IncomingData.length()));
+    else if (IncomingData.charAt(0) == 'C#') {
+      colorString = IncomingData.substring(2, IncomingData.length());
     }
   }
 }
