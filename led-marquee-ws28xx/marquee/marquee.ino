@@ -1,10 +1,14 @@
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_GFX.h>
 
-#define NEOPIXEL_PIN    6  // D2 for NodeMCU
-#define NCOLUMNS        45 // number of pixel columns
-#define NHEIGHT         8  // number of pixel height
-#define CHAR_WIDTH      6  // font width
+#define NEOPIXEL_PIN 6 // D2 for NodeMCU
+#define NCOLUMNS 45    // number of pixel columns
+#define NHEIGHT 8      // number of pixel height
+#define CHAR_WIDTH 6   // font width
+
+String readString;
+String colorString;
+String textString;
 
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(NCOLUMNS, NHEIGHT, NEOPIXEL_PIN,
   NEO_MATRIX_TOP  + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS + 
@@ -14,57 +18,59 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(NCOLUMNS, NHEIGHT, NEOPIXEL_PIN,
 byte red_random = 0;
 byte green_random = 0;
 byte blue_random = 0;
+byte red = 0;
+byte green = 0;
+byte blue = 0;
 
 // ============================== setup ============================================
 
-void setup() {
+void setup()
+{
   Serial.begin(115200);
-
-  Serial.println("Booting");
-  Serial.println("Ready");
+  Serial.setTimeout(500);
 
   Neopixel_Initial();
-  
 }
 
 // =============== Loop ======================
-String Scroll_Text[2] = {"Otago Polytechnic BIT", "Third Year"};
-void loop() {
 
-  Send_Text();
-  //Send_Text2("Otago Polytechnic BIT");
-  
+void loop()
+{
+
+  while (Serial.available() > 0)
+  {
+    String IncomingData = Serial.readString();
+    if (IncomingData.charAt(0) == 'T')
+    {
+      textString = IncomingData.substring(1, IncomingData.length());
+      Send_Text(textString, red, green, blue);
+    }
+    else if (IncomingData.charAt(0) == 'C' && IncomingData.charAt(1) == '#')
+    {
+      colorString = IncomingData.substring(2, IncomingData.length());
+      hexToRGB(colorString, red, green, blue);
+    }
+  }
 }
 
 // ============== Send Text =================
 
-void Send_Text() {
-  byte r1,g1,b1, r2,g2,b2;
-  
-  for (int x=0 ; x < ((Scroll_Text[0].length()+Scroll_Text[1].length())*CHAR_WIDTH+NCOLUMNS); x++) {
-     if ( (x % (CHAR_WIDTH*8)) == 0 ) {
-        Neomatrix_random_color();
-        r1 = red_random;
-        g1 = green_random;
-        b1 = blue_random;
-        Neomatrix_random_color();
-        r2 = red_random;
-        g2 = green_random;
-        b2 = blue_random;
-     }
-     
-     matrix.fillScreen(0);
-
-     Neomatrix_text(Scroll_Text[0], r1, g1, b1, -x+NCOLUMNS-1);
-     Neomatrix_text(Scroll_Text[1], r2, g2, b2, -x+NCOLUMNS-1 + (Scroll_Text[0].length() + 3)*CHAR_WIDTH);
-   
-     matrix.show();
-     delay(75);
-  }
-}
-
-void Send_Text2(String inputstr) {
+void Send_Text(String inputstr, red, green, blue)
+{
 
   Neomatrix_random_color();
-  Neomatrix_scrolltext(inputstr ,red_random, green_random, blue_random);
+  Neomatrix_scrolltext(inputstr, red, green, blue);
+}
+
+void hexToRGB(String hex, byte &r, byte &g, byte &b)
+{
+  // Remove '#' if present
+  hex.replace("#", "");
+
+  // Parse hexadecimal values for red, green, and blue
+  long value = strtol(hex.c_str(), NULL, 16);
+
+  r = (value >> 16) & 0xFF;
+  g = (value >> 8) & 0xFF;
+  b = value & 0xFF;
 }
