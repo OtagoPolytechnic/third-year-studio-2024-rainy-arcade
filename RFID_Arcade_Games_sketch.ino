@@ -23,3 +23,14 @@ void setup() {
   pinMode(RED_LED_PIN, OUTPUT);
 }
 
+bool isCardAuthorized(String cardSerial) {
+  for (int i = 0; i < numberOfCorrectCards; i++) {
+    if (cardSerial == correctCardSerials[i]) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+
