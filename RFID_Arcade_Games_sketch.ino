@@ -6,3 +6,5 @@
 #define GREEN_LED_PIN 4  // Set to the actual pin number for the green LED
 #define RED_LED_PIN 5    // Set to the actual pin number for the red LED
 
+RFID rfid(SS_PIN, RST_PIN);
+String rfidCard;
