@@ -8,3 +8,8 @@
 
 RFID rfid(SS_PIN, RST_PIN);
 String rfidCard;
+
+// Array of correct RFID card serial numbers
+String correctCardSerials[] = {"99 232 44 247", "147 83 28 31"}; // Example serials, add your own
+int numberOfCorrectCards = sizeof(correctCardSerials) / sizeof(correctCardSerials[0]);
+
