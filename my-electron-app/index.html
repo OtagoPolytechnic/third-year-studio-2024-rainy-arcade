@@ -4,36 +4,42 @@
 <html>
   <head>
     <link rel="stylesheet" href="./assets/css/styles.css" />
+
     <meta charset="UTF-8" />
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self'"
     />
-    <title>Hello World!</title>
+    <title>OP Arcade</title>
   </head>
   <body>
-    <h1>OP Arcade</h1>
+    <h1>The Otago Polytechnic Arcade</h1>
     <div class="gameSelect">
 
       <div class="singleGame">
-        <a href=".\assets\games\BadPac.exe" target="_blank">
+        <a href=".\assets\games\BadPac.png" target="_blank">
           <button type="button">BadPac</button>
+        </a>
+      </div>
+
+      <div class="singleGame">
+        <a href=".\assets\games\BadPac.png" target="_blank">
+          <button type="button">Breakout</button>
         </a>
       </div>
       <!--  End of singleGame -->
 
-      <!-- <div class="backButton">
+      <div class="bottomNav">
+      <div class="backButton">
         <a href=".\index.html">
-          <button type="button">Back</button>
+          <button type="button">Home</button>
         </a>
-      </div> -->
+      </div>
       <!--  End of backButton -->
-
+    </div>
     </div>
     <!--  End of gameSelect -->
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
   </body>
 </html>
