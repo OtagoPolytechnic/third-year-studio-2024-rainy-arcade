@@ -13,3 +13,13 @@ String rfidCard;
 String correctCardSerials[] = {"99 232 44 247", "147 83 28 31"}; // Example serials, add your own
 int numberOfCorrectCards = sizeof(correctCardSerials) / sizeof(correctCardSerials[0]);
 
+void setup() {
+  Serial.begin(9600);
+  Serial.println("Starting the RFID Reader...");
+  SPI.begin();
+  rfid.init();
+
+  pinMode(GREEN_LED_PIN, OUTPUT);
+  pinMode(RED_LED_PIN, OUTPUT);
+}
+
