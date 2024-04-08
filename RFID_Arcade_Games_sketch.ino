@@ -32,5 +32,27 @@ bool isCardAuthorized(String cardSerial) {
   return false;
 }
 
+void loop() {
+  if (rfid.isCard()) {
+    if (rfid.readCardSerial()) {
+      rfidCard = String(rfid.serNum[0]) + " " + String(rfid.serNum[1]) + " " + String(rfid.serNum[2]) + " " + String(rfid.serNum[3]);
+      Serial.println(rfidCard);
 
+      if (isCardAuthorized(rfidCard)) {
+        digitalWrite(GREEN_LED_PIN, HIGH);
+        digitalWrite(RED_LED_PIN, LOW);
+        Serial.println("Access Granted");
+      } else {
+        digitalWrite(GREEN_LED_PIN, LOW);
+        digitalWrite(RED_LED_PIN, HIGH);
+        Serial.println("Access Denied");
+      }
+    }
+    rfid.halt();
+  } else {
+    // Turn off both LEDs if no card is present
+    digitalWrite(GREEN_LED_PIN, LOW);
+    digitalWrite(RED_LED_PIN, LOW);
+  }
+}
 
