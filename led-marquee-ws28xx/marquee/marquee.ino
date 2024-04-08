@@ -19,6 +19,10 @@ byte red = 255;
 byte green = 255;
 byte blue = 255;
 
+byte red_random = 0;
+byte green_random = 0;
+byte blue_random = 0;
+
 // ============================== setup ============================================
 
 void setup()
@@ -40,7 +44,10 @@ void loop()
     if (IncomingData.charAt(0) == 'T')
     {
       textString = IncomingData.substring(1, IncomingData.length());
-      Send_Text(textString, red, green, blue);
+      while (Serial.available() == 0) 
+      {
+        Send_Text(textString, red, green, blue);
+      }
     }
     else if (IncomingData.charAt(0) == 'C' && IncomingData.charAt(1) == '#')
     {
@@ -54,8 +61,6 @@ void loop()
 
 void Send_Text(String inputstr, byte red, byte green, byte blue)
 {
-
-  Neomatrix_random_color();
   Neomatrix_scrolltext(inputstr, red, green, blue);
 }
 

@@ -32,7 +32,7 @@ void Neomatrix_scrolltext(String instr, byte R, byte G, byte B) {
 
     matrix.print(instr);
     matrix.show();
-    delay(10);
+    delay(50);
   }
 }
 
