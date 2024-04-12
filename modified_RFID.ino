@@ -43,6 +43,33 @@ bool isCardAuthorized(String cardSerial) {
   return false;
 }
 
+void updateState(State newState) {
+  currentState = newState;
+  switch (currentState) {
+    case LOCKED:
+      digitalWrite(GREEN_LED_PIN, LOW);
+      digitalWrite(RED_LED_PIN, HIGH);
+      break;
+    case UNLOCKED:
+      digitalWrite(GREEN_LED_PIN, HIGH);
+      digitalWrite(RED_LED_PIN, LOW);
+      grantedBeep(); // Sound the buzzer for an authorized card
+      break;
+    case DENIED:
+      digitalWrite(GREEN_LED_PIN, LOW);
+      deniedBeep(); // Sound the buzzer for a denied card
+      // Flash the red LED for DENIED state
+      for (int i = 0; i < 5; i++) {
+        digitalWrite(RED_LED_PIN, HIGH);
+        delay(200);
+        digitalWrite(RED_LED_PIN, LOW);
+        delay(200);
+      }
+      updateState(LOCKED); // After flashing, go back to LOCKED state
+      break;
+  }
+}
+
 
 
 
