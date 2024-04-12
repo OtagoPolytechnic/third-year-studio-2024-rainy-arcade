@@ -88,6 +88,29 @@ void updateState(State newState) {
 
 
 
+void loop() {
+  unsigned long currentTime = millis();
+
+  if (rfid.isCard()) {
+    if (rfid.readCardSerial()) {
+      rfidCard = String(rfid.serNum[0]) + " " + String(rfid.serNum[1]) + " " + String(rfid.serNum[2]) + " " + String(rfid.serNum[3]);
+      Serial.println(rfidCard);
+
+      if (isCardAuthorized(rfidCard)) {
+        updateState(UNLOCKED);
+        lastSwipeTime = currentTime;
+      } else {
+        updateState(DENIED);
+      }
+    }
+    rfid.halt();
+  } else {
+    // Check for timeout to revert to LOCKED state
+    if (currentState == UNLOCKED && currentTime - lastSwipeTime >= timeoutDuration) {
+      updateState(LOCKED);
+    }
+  }
+}
 
 
 
