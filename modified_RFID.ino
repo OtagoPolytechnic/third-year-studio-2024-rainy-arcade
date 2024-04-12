@@ -70,22 +70,12 @@ void updateState(State newState) {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void deniedBeep() {
+  // Beep for 200 milliseconds
+  tone(BUZZER_PIN, 1000); // Set frequency to 1000 Hz
+  delay(200);
+  noTone(BUZZER_PIN); // Stop the tone
+}
 
 
 void loop() {
