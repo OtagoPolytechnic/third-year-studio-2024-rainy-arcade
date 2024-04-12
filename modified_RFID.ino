@@ -49,15 +49,18 @@ void updateState(State newState) {
     case LOCKED:
       digitalWrite(GREEN_LED_PIN, LOW);
       digitalWrite(RED_LED_PIN, HIGH);
+      Serial.println("System is locked.");
       break;
     case UNLOCKED:
       digitalWrite(GREEN_LED_PIN, HIGH);
       digitalWrite(RED_LED_PIN, LOW);
       grantedBeep(); // Sound the buzzer for an authorized card
+      Serial.println("Access granted."); // Print "Access granted" to the serial monitor
       break;
     case DENIED:
       digitalWrite(GREEN_LED_PIN, LOW);
       deniedBeep(); // Sound the buzzer for a denied card
+      Serial.println("Access denied."); // Print "Access denied" to the serial monitor
       // Flash the red LED for DENIED state
       for (int i = 0; i < 5; i++) {
         digitalWrite(RED_LED_PIN, HIGH);
@@ -69,6 +72,7 @@ void updateState(State newState) {
       break;
   }
 }
+
 
 void deniedBeep() {
   // Beep for 200 milliseconds
