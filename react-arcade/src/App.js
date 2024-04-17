@@ -1,29 +1,12 @@
 import React from "react";
-// import logo from "./logo.svg";
 import "./App.css";
+import axios from "axios";
 
-// WEBSOCKET WAS ADDED UNDER SUGGESTION
-
-// Websocket
-const socket = new WebSocket("ws://localhost:8080")
-
-// connection opened
-socket.addEventListener("open", event => {
-  socket.send("Connection Established")
-});
-
-// Listen for messages
-socket.addEventListener("message", event => {
-  socket.send("Connection Established")
-});
-
-function launchGame(){
-  socket.send({
-    game:"User Game"
+const launchGame = () => {
+  axios.post("http://localhost:3000/executeShortcut", {
+    path: "C:/Users/Rkoks/OneDrive - Otago Polytechnic/Year 4 2024/Studio 6/third-year-studio-2024-rainy-arcade/react-arcade/assets/games/BadPac.exe"
   })
 }
-
-// END OF ADDED UNDER SUGGESTION
 
 function App() {
   return (
