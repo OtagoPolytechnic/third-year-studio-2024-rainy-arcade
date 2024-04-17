@@ -17,9 +17,14 @@ byte red = 255;
 byte green = 255;
 byte blue = 255;
 
-byte red_random = 0;
+byte red_random = 0; // Ensuring these are not removed
 byte green_random = 0;
 byte blue_random = 0;
+
+// Variables for scrolling
+static unsigned int index = 0;  // Pixel offset for starting the text
+static unsigned long lastUpdate = 0;  // Time of the last scroll update
+int scrollDelay = 50;  // Milliseconds between scroll updates
 
 // ============================== setup ============================================
 
@@ -40,6 +45,7 @@ void loop() {
     if (incomingData.charAt(0) == 'T') {
       textString = incomingData.substring(1);
       currentState = DISPLAYING_TEXT;
+      resetTextDisplay();  // Reset display for new text
     } else if (incomingData.charAt(0) == 'C' && incomingData.charAt(1) == '#') {
       colorString = incomingData.substring(2);
       hexToRGB(colorString, red, green, blue);
@@ -48,16 +54,22 @@ void loop() {
   }
 
   if (currentState == DISPLAYING_TEXT) {
-    Send_Text_NonBlocking(textString, red, green, blue); // Change to always call without IDLE state
+    if (!Send_Text_NonBlocking(textString, red, green, blue)) {
+      // When scrolling is done, reset to keep the text continuous
+      resetTextDisplay();
+    }
   }
+}
+
+void resetTextDisplay() {
+  // Function to reset the text display parameters
+  index = 0;  // Reset index for new text
+  lastUpdate = millis();  // Reset the last update time to avoid immediate scrolling
 }
 
 // ============== Send Text Non-Blocking =================
 
-void Send_Text_NonBlocking(String inputstr, byte red, byte green, byte blue) {
-  static unsigned int index = 0;  // Pixel offset for starting the text
-  static unsigned long lastUpdate = 0;  // Time of the last scroll update
-  int scrollDelay = 50;  // Milliseconds between scroll updates
+bool Send_Text_NonBlocking(String inputstr, byte red, byte green, byte blue) {
   int totalWidth = inputstr.length() * CHAR_WIDTH + NCOLUMNS;  // Total pixels to scroll through
 
   if (millis() - lastUpdate > scrollDelay) {
@@ -71,8 +83,10 @@ void Send_Text_NonBlocking(String inputstr, byte red, byte green, byte blue) {
     index++;
     if (index >= totalWidth) {
       index = 0;  // Reset index after the full text has scrolled
+      return false;  // Indicate completion of one scroll cycle
     }
   }
+  return true;  // Continue scrolling
 }
 
 // ================== Convert HEX to RGB ========================
