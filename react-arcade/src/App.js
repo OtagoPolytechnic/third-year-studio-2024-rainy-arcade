@@ -1,36 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+// import logo from "./logo.svg";
+import "./App.css";
+
+// WEBSOCKET WAS ADDED UNDER SUGGESTION
+
+// Websocket
+const socket = new WebSocket("ws://localhost:8080")
+
+// connection opened
+socket.addEventListener("open", event => {
+  socket.send("Connection Established")
+});
+
+// Listen for messages
+socket.addEventListener("message", event => {
+  socket.send("Connection Established")
+});
+
+function launchGame(){
+  socket.send({
+    game:"User Game"
+  })
+}
+
+// END OF ADDED UNDER SUGGESTION
 
 function App() {
   return (
     <div className="App">
-    <h1>The Otago Polytechnic Arcade</h1>
-    <div class="gameSelect">
+      <h1>The Otago Polytechnic Arcade</h1>
+      <div class="gameSelect">
 
-      <div class="singleGame">
-        <a href=".\assets\games\BadPac.exe" target="_blank">
-          <button type="button">BadPac</button>
-        </a>
-      </div>
+        <div class="singleGame">
+            <button type="button" onClick={launchGame}>BadPac</button>
+        </div>
 
-      <div class="singleGame">
-        <a href="./assets/games/BadPac.png" target="_blank">
-          <button type="button">Breakout</button>
-        </a>
+        <div class="bottomNav">
+          <div class="backButton">
+              <button type="button">Home</button>
+          </div>
+        </div>
       </div>
-{/* End of singleGame */}
-
-      <div class="bottomNav">
-      <div class="backButton">
-        <a href=".\index.html">
-          <button type="button">Home</button>
-        </a>
-      </div>
-{/* End of backButton */}
-    </div>
-    </div>
-{/* End of gameSelect */}
     </div>
   );
 }
