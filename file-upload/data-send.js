@@ -1,4 +1,4 @@
-const SerialPort = require('serialport');
+const { SerialPort } = require('serialport');
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -10,18 +10,19 @@ const PORT = process.env.PORT || 3002;
 app.use(bodyParser.json());
 app.use(cors());
 
-// Initialize serial port (adjust '/dev/ttyUSB0' to your port name and baud rate as needed)
-const port = new SerialPort('COM4', {
-  baudRate: 115200
+// Initialize serial port 
+const port = new SerialPort({
+  path: 'COM4',
+  baudRate: 115200,
 });
 
 // Open errors will be emitted as an error event
-port.on('error', function(err) {
+port.on('error', function (err) {
   console.log('Error: ', err.message);
 });
 
 // POST route to receive data and send it through the serial port
-app.post("/send-data", (req, res) => {
+app.post("/data-send", async (req, res) => {
   const { name, color } = req.body;
   const message = `Name: ${name}, Color: ${color}\n`; // Format the message
   console.log(message);
@@ -33,8 +34,9 @@ app.post("/send-data", (req, res) => {
       return console.log('Error on write: ', err.message);
     }
     console.log('Color Message written:', color_message);
-    res.send("Data sent over serial port.");
+    //res.send("Data sent over serial port.");
   });
+  await sleep(1000);
   port.write(name_message, (err) => {
     if (err) {
       return console.log('Error on write: ', err.message);
@@ -43,6 +45,12 @@ app.post("/send-data", (req, res) => {
     res.send("Data sent over serial port.");
   });
 });
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 // Server listening
 app.listen(PORT, () => {
