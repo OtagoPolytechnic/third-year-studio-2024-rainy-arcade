@@ -1,6 +1,8 @@
 import express, {json} from "express"
 import { exec } from "child_process"
 import cors from "cors"
+import path from "path"
+
 const app = express()
 
 const PORT = 3001
@@ -8,12 +10,14 @@ const PORT = 3001
 app.use(json())
 app.use(cors());
 
-app.post('/executeShortcut', (req, res) => {
-    // Replace 'path_to_your_shortcut.lnk' with the path to your shortcut file
-    const { path } = req.body
+process.chdir("E://third-year-studio-2024-rainy-arcade"); //Set the directory
 
-    // Execute the shortcut
-    exec(path, (error, stdout, stderr) => {
+app.post('/executeShortcut', (req, res) => {
+    const { path: relativePath } = req.body
+
+    const absolutePath = path.join(process.cwd(), relativePath);
+
+    exec(`"${absolutePath}"`, (error, stdout, stderr) => {
         if (error) {
         console.error(`Error executing shortcut: ${error}`);
         res.status(500).send('Error executing shortcut');
