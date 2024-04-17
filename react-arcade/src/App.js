@@ -1,11 +1,10 @@
 import React from "react";
 import "./App.css";
-import axios from "axios";
 import Button from "./components/button";
 
 function App() {
 
-  let temp = [{game: "PacMan", path: "E:/third-year-studio-2024-rainy-arcade/react-arcade/assets/games/BadPac.exe"},
+  let temp = [{game: "PacMan", path: "react-arcade/assets/games/BadPac.exe"},
               {game: "NotPacMan", path:"NoWhere"}]
 
   return (
