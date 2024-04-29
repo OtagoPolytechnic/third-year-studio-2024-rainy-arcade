@@ -10,7 +10,7 @@ const PORT = 3001
 app.use(json())
 app.use(cors());
 
-process.chdir("C:/Users/Rkoks/OneDrive/Desktop/third-year-studio-2024-rainy-arcade"); //Set the directory
+process.chdir("C:/Users/KoksR2/Desktop/third-year-studio-2024-rainy-arcade-2"); //Set the directory
 
 app.post('/executeShortcut', (req, res) => {
     const { path: relativePath } = req.body
