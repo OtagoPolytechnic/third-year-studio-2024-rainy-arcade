@@ -20,11 +20,9 @@ function App() {
       <div class="gameTile">
         <ul style={{ listStyleType: "none", padding: 0 }}>
           {temp.map((game) => (
-            <Carousel>
             <li key={game.game}>
               <Button game={game.game} path={game.path} />
             </li>
-            </Carousel>
           ))}
         </ul>
       </div>

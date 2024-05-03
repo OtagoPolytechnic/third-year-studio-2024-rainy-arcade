@@ -28,6 +28,11 @@
   color: #61dafb;
 }
 
+.gameTile{
+  color: #61dafb;
+  width: 20%;
+}
+
 
 @keyframes App-logo-spin {
   from {
