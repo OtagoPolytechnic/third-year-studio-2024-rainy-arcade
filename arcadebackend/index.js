@@ -2,7 +2,7 @@ import express, {json} from "express"
 import { exec } from "child_process"
 import cors from "cors"
 import path from "path"
-
+import fs from "fs"
 const app = express()
 
 const PORT = 3001
@@ -10,7 +10,7 @@ const PORT = 3001
 app.use(json())
 app.use(cors());
 
-process.chdir("C:/Users/KoksR2/Desktop/third-year-studio-2024-rainy-arcade-2"); //Set the directory
+process.chdir("E:/third-year-studio-2024-rainy-arcade"); //Set the directory
 
 app.post('/executeShortcut', (req, res) => {
     const { path: relativePath } = req.body
@@ -34,6 +34,27 @@ app.post('/executeShortcut', (req, res) => {
         res.status(200).send('Shortcut executed successfully');
     });
 });
+
+app.get("/getGames", (req, res) => {
+    try {
+        const games = []
+        const items = fs.readdirSync("./react-arcade/assets/test")
+        let exepath = ""
+
+        items.forEach(item => {
+            const newItem = fs.readdirSync(`./react-arcade/assets/test/${item}`)
+            newItem.forEach(content => {
+                if (content.includes(".txt")) {
+                    exepath = content
+                }
+            })
+            games.push({game: item, folderContents: newItem, exepath: exepath})
+        });
+        res.status(200).json({path : "./react-arcade/assets/test", games: games})
+    } catch (error) {
+        res.status(404).json({error: error})
+    }
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`)
