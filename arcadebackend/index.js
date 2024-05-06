@@ -3,14 +3,18 @@ import { exec } from "child_process"
 import cors from "cors"
 import path from "path"
 import fs from "fs"
-const app = express()
+import dotenv from "dotenv";
+const app = express();
+dotenv.config();
 
-const PORT = 3001
+
+const PORT = process.env.PORT
+const DIRECTORY = process.env.REPO_DIRECTORY
 
 app.use(json())
 app.use(cors());
 
-process.chdir("E:/third-year-studio-2024-rainy-arcade"); //Set the directory
+process.chdir(DIRECTORY);
 
 app.post('/executeShortcut', (req, res) => {
     const { path: relativePath } = req.body
@@ -44,7 +48,7 @@ app.get("/getGames", (req, res) => {
         items.forEach(item => {
             const newItem = fs.readdirSync(`./react-arcade/assets/test/${item}`)
             newItem.forEach(content => {
-                if (content.includes(".txt")) {
+                if (content.includes(".exe") && !content.includes("UnityCrashHandler32.exe")) {
                     exepath = content
                 }
             })
