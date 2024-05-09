@@ -41,20 +41,36 @@ app.post('/executeShortcut', (req, res) => {
 
 app.get("/getGames", (req, res) => {
     try {
+        const age = req.query.age;
+        console.log(age)
         const games = []
-        const items = fs.readdirSync("./react-arcade/assets/test")
         let exepath = ""
-
+        
+        const items = fs.readdirSync("./react-arcade/assets/games/young")
         items.forEach(item => {
-            const newItem = fs.readdirSync(`./react-arcade/assets/test/${item}`)
+            const newItem = fs.readdirSync(`./react-arcade/assets/games/young/${item}`)
             newItem.forEach(content => {
                 if (content.includes(".exe") && !content.includes("UnityCrashHandler32.exe")) {
-                    exepath = content
+                    console.log(item)
+                    exepath = `young/${item}/${content}`
                 }
             })
             games.push({game: item, folderContents: newItem, exepath: exepath})
         });
-        res.status(200).json({path : "./react-arcade/assets/test", games: games})
+
+        if (age >= 18) {
+            const items = fs.readdirSync("./react-arcade/assets/games/old")
+            items.forEach(item => {
+                const newItem = fs.readdirSync(`./react-arcade/assets/games/old/${item}`)
+                newItem.forEach(content => {
+                    if (content.includes(".exe") && !content.includes("UnityCrashHandler32.exe")) {
+                        exepath = `old/${item}/${content}`
+                    }
+                })
+                games.push({game: item, folderContents: newItem, exepath: exepath})
+            });
+        }
+        res.status(200).json({path : "./react-arcade/assets/games", games: games})
     } catch (error) {
         res.status(404).json({error: error})
     }
