@@ -7,9 +7,9 @@ keyboard_profile_path = r"keyboard.gamecontroller.amgp"
 
 def load_profile(input_device):
     if input_device.lower() == "mouse":
-        command = [antimicrox_path, "--load-profile", mouse_profile_path]
+        command = [antimicrox_path, "--tray", "--profile", mouse_profile_path]
     elif input_device.lower() == "keyboard":
-        command = [antimicrox_path, "--load-profile", keyboard_profile_path]
+        command = [antimicrox_path, "--tray","--profile", keyboard_profile_path]
     else:
         print("Invalid input device. Please choose 'Mouse' or 'Keyboard'.")
         return
@@ -20,6 +20,5 @@ def load_profile(input_device):
     except subprocess.CalledProcessError as e:
         print(f"Error executing command: {e}")
 
-# Example usage:
 selected_input = input("Enter input device (Mouse/Keyboard): ")
 load_profile(selected_input)
