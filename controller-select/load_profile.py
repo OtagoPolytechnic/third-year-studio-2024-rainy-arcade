@@ -1,4 +1,5 @@
 import subprocess
+import time
 
 # Define paths
 antimicrox_path = r"C:\Program Files\AntiMicroX\bin\antimicrox.exe"
@@ -8,30 +9,27 @@ keyboard2_profile_path = r"keyboard2.gamecontroller.amgp"
 
 def load_profile(input_device):
     if input_device.lower() == "mouse":
+        command2 = [antimicrox_path, "--hidden"]
         command = [antimicrox_path, "--tray", "--profile", mouse_profile_path]
     elif input_device.lower() == "keyboard":
-        #command = [antimicrox_path, "--tray","--profile", keyboard_profile_path]
-        command_keyboard1 = [antimicrox_path, "--tray", "--profile", keyboard1_profile_path]
-        command_keyboard2 = [antimicrox_path, "--tray", "--profile", keyboard2_profile_path]
-    # Execute the commands using subprocess for both keyboard profiles
-        try:
-            subprocess.Popen(command_keyboard1, stderr=subprocess.PIPE, stdout=subprocess.PIPE, stdin=subprocess.PIPE, creationflags=subprocess.DETACHED_PROCESS)
-            subprocess.Popen(command_keyboard2, stderr=subprocess.PIPE, stdout=subprocess.PIPE, stdin=subprocess.PIPE, creationflags=subprocess.DETACHED_PROCESS)
-        except Exception as e:
-            print(f"Error executing command: {e}")
-        return
+        # Load keyboard1 profile onto joystick 1 and keyboard2 profile onto joystick 2
+        command = [antimicrox_path, "--tray", "--profile", keyboard1_profile_path, "--profile-controller", "1"]
+        command2 =  [antimicrox_path, "--hidden", "--profile", keyboard2_profile_path, "--profile-controller", "2"]
     else:
         print("Invalid input device. Please choose 'Mouse' or 'Keyboard'.")
         return
-
-    # Execute the command using subprocess
-    try:
+    try:        
+        subprocess.Popen(command2)
+        time.sleep(2)
+        # Terminate the first instance of AntiMicroX
+        kill_antimicrox()
         subprocess.run(command, check=True)
-    except subprocess.CalledProcessError as e:
+    except Exception as e:
         print(f"Error executing command: {e}")
-        
-# Launch the command using subprocess.Popen()
-    subprocess.Popen(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, stdin=subprocess.PIPE, creationflags=subprocess.DETACHED_PROCESS)
+
+def kill_antimicrox():
+    # Command to kill AntiMicroX process
+    subprocess.run(["taskkill", "/f", "/im", "antimicrox.exe"])
 
 selected_input = input("Enter input device (Mouse/Keyboard): ")
 load_profile(selected_input)
