@@ -12,7 +12,7 @@ app.use(cors());
 // Configure multer for file storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './uploads') 
+    cb(null, './upload') 
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname)) 
@@ -21,10 +21,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Route to handle file uploads
-app.post('/upload', upload.single('file'), (req, res) => {
-  res.send('File uploaded successfully');
+app.post('/upload', upload.fields([{ name: 'file', maxCount: 1 }, { name: 'dataFile', maxCount: 1 }]), (req, res) => {
+  res.send('Files uploaded successfully');
 });
+
 
 // Configure CORS
 app.use(cors());
