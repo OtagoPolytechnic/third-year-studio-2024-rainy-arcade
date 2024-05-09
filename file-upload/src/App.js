@@ -47,21 +47,22 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Log the required information to the console
-    console.log(`Dev Name: ${devName}, Game Name: ${gameName}, Age Restricted: ${isAgeRestricted ? 'Yes' : 'No'}`);
+    // Create text content for new text file
+    const textContent = `Dev Name: ${devName}\nGame Name: ${gameName}\nAge Restricted: ${isAgeRestricted ? 'Yes' : 'No'}`;
+    const textFile = new Blob([textContent], { type: 'text/plain' });
+    const dataFile = new File([textFile], "details.txt", { type: 'text/plain' });
 
     if (file) {
-      await sendFile(file);
+      await sendFile(file, dataFile);
     } else {
       console.error('No file selected');
     }
-
-    await sendData(devName, gameName, color, isAgeRestricted);
   };
 
-  const sendFile = async (file) => {
+  const sendFile = async (file, dataFile) => {
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('dataFile', dataFile);
 
     try {
       const response = await fetch('http://localhost:3001/upload', {
@@ -70,25 +71,9 @@ function App() {
       });
 
       if (!response.ok) throw new Error('File upload failed');
-      console.log('File uploaded successfully');
+      console.log('Files uploaded successfully');
     } catch (error) {
-      console.error('Error uploading file:', error);
-    }
-  };
-
-  const sendData = async (devName, gameName, color, isAgeRestricted) => {
-    const data = { devName, gameName, color, isAgeRestricted };
-    try {
-      const response = await fetch('http://localhost:3002/data-send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) throw new Error('Data send failed');
-      console.log('Data sent successfully!');
-    } catch (error) {
-      console.error('Error sending data:', error);
+      console.error('Error uploading files:', error);
     }
   };
 

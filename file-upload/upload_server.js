@@ -12,7 +12,7 @@ app.use(cors());
 // Configure multer for file storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'C:/third-year-studio-2024-rainy-arcade/uploads') 
+    cb(null, './uploads') 
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname)) 
