@@ -9,12 +9,18 @@ const FileUploader = ({ onFileSelect }) => (
   </div>
 );
 
-// Form component remains unchanged
-const Form = ({ name, setName, color, setColor, onSubmit }) => (
+// Adjusted Form component to handle separate developer name and game name
+const Form = ({ devName, setDevName, gameName, setGameName, color, setColor, onSubmit, isAgeRestricted, setIsAgeRestricted }) => (
   <form className="data-form" onSubmit={onSubmit}>
     <div className="form-group">
-      <label htmlFor="name">Name:</label>
-      <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+      <label htmlFor="dev-name">Dev Name:</label>
+      <input type="text" id="dev-name" value={devName} onChange={(e) => setDevName(e.target.value)} />
+      <label htmlFor="game-name">Game Name:</label>
+      <input type="text" id="game-name" value={gameName} onChange={(e) => setGameName(e.target.value)} />
+    </div> 
+    <div className="form-group">
+      <label htmlFor="age-restriction">Age Restricted:</label>
+      <input type="checkbox" id="age-restriction" checked={isAgeRestricted} onChange={(e) => setIsAgeRestricted(e.target.checked)} />
     </div>
     <div className="form-group">
       <label htmlFor="color">Color (RGB):</label>
@@ -24,11 +30,12 @@ const Form = ({ name, setName, color, setColor, onSubmit }) => (
   </form>
 );
 
-
 function App() {
   const [file, setFile] = useState(null);
-  const [name, setName] = useState('');
+  const [devName, setDevName] = useState('');
+  const [gameName, setGameName] = useState('');
   const [color, setColor] = useState('#000000');
+  const [isAgeRestricted, setIsAgeRestricted] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -40,13 +47,16 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Log the required information to the console
+    console.log(`Dev Name: ${devName}, Game Name: ${gameName}, Age Restricted: ${isAgeRestricted ? 'Yes' : 'No'}`);
+
     if (file) {
       await sendFile(file);
     } else {
       console.error('No file selected');
     }
 
-    await sendData(name, color);
+    await sendData(devName, gameName, color, isAgeRestricted);
   };
 
   const sendFile = async (file) => {
@@ -66,8 +76,8 @@ function App() {
     }
   };
 
-  const sendData = async (name, color) => {
-    const data = { name, color };
+  const sendData = async (devName, gameName, color, isAgeRestricted) => {
+    const data = { devName, gameName, color, isAgeRestricted };
     try {
       const response = await fetch('http://localhost:3002/data-send', {
         method: 'POST',
@@ -92,7 +102,13 @@ function App() {
             <p>File Size: {file.size} bytes</p>
           </div>
         )}
-        <Form name={name} setName={setName} color={color} setColor={setColor} onSubmit={handleSubmit} />
+        <Form 
+          devName={devName} setDevName={setDevName} 
+          gameName={gameName} setGameName={setGameName} 
+          color={color} setColor={setColor} 
+          onSubmit={handleSubmit}
+          isAgeRestricted={isAgeRestricted} setIsAgeRestricted={setIsAgeRestricted}
+        />
       </header>
     </div>
   );
