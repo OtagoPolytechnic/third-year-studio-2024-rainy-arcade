@@ -9,23 +9,32 @@ keyboard2_profile_path = r"keyboard2.gamecontroller.amgp"
 
 def load_profile(input_device):
     if input_device.lower() == "mouse":
-        command2 = [antimicrox_path, "--hidden"]
-        command = [antimicrox_path, "--tray", "--profile", mouse_profile_path]
+        mouseCommand = [antimicrox_path, "--tray", "--profile", mouse_profile_path]
+        try:        
+            subprocess.run(mouseCommand, check=True)
+        except Exception as e:
+            print(f"Error executing command: {e}")
     elif input_device.lower() == "keyboard":
         # Load keyboard1 profile onto joystick 1 and keyboard2 profile onto joystick 2
-        command = [antimicrox_path, "--tray", "--profile", keyboard1_profile_path, "--profile-controller", "1"]
-        command2 =  [antimicrox_path, "--hidden", "--profile", keyboard2_profile_path, "--profile-controller", "2"]
+        command = [antimicrox_path,  "--tray", "--profile", keyboard1_profile_path, "--profile-controller", "1"]
+        command1 = [antimicrox_path, "--unload", "2", "--tray", "--profile", keyboard2_profile_path, "--profile-controller", "2"]
+        command2 = [antimicrox_path, "--profile", keyboard2_profile_path, "--profile-controller", "2"]
+        try:        
+            subprocess.Popen(command)
+            time.sleep(5)
+            # Terminate the first instance of AntiMicroX
+            kill_antimicrox()
+            time.sleep(3)
+            subprocess.Popen(command1)
+            time.sleep(3)
+            subprocess.Popen(command2)
+            #subprocess.run(command, check=True)
+        except Exception as e:
+            print(f"Error executing command: {e}")
     else:
         print("Invalid input device. Please choose 'Mouse' or 'Keyboard'.")
         return
-    try:        
-        subprocess.Popen(command2)
-        time.sleep(2)
-        # Terminate the first instance of AntiMicroX
-        kill_antimicrox()
-        subprocess.run(command, check=True)
-    except Exception as e:
-        print(f"Error executing command: {e}")
+
 
 def kill_antimicrox():
     # Command to kill AntiMicroX process
