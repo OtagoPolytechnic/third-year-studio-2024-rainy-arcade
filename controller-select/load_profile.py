@@ -10,7 +10,16 @@ def load_profile(input_device):
     if input_device.lower() == "mouse":
         command = [antimicrox_path, "--tray", "--profile", mouse_profile_path]
     elif input_device.lower() == "keyboard":
-        command = [antimicrox_path, "--tray","--profile", keyboard_profile_path]
+        #command = [antimicrox_path, "--tray","--profile", keyboard_profile_path]
+        command_keyboard1 = [antimicrox_path, "--tray", "--profile", keyboard1_profile_path]
+        command_keyboard2 = [antimicrox_path, "--tray", "--profile", keyboard2_profile_path]
+    # Execute the commands using subprocess for both keyboard profiles
+        try:
+            subprocess.Popen(command_keyboard1, stderr=subprocess.PIPE, stdout=subprocess.PIPE, stdin=subprocess.PIPE, creationflags=subprocess.DETACHED_PROCESS)
+            subprocess.Popen(command_keyboard2, stderr=subprocess.PIPE, stdout=subprocess.PIPE, stdin=subprocess.PIPE, creationflags=subprocess.DETACHED_PROCESS)
+        except Exception as e:
+            print(f"Error executing command: {e}")
+        return
     else:
         print("Invalid input device. Please choose 'Mouse' or 'Keyboard'.")
         return
