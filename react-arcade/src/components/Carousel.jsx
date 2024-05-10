@@ -4,7 +4,11 @@ import "./carousel.scss";
 
 const Item = ({ id, level }) => {
   const className = `item level${level}`;
-  return <div className={className}>{id}</div>;
+  return <div className={className}>
+    <div className="gameName">Game</div>
+    {/* <img src="/../assets/img/gb_cart.png"/> */}
+    {id}
+    </div>;
 };
 
 const Carousel = ({ items, active }) => {
@@ -73,7 +77,7 @@ const Carousel = ({ items, active }) => {
       <div className="arrow arrow-right" onClick={moveRight}>
         <i className="fi-arrow-right"></i>
       </div>
-    </div>
+    </div>    
   );
 };
 
