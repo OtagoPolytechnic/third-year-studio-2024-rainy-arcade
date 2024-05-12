@@ -7,7 +7,7 @@ body {
 }
 
 #carousel {
-//   background-color: greenyellow;
+  //   background-color: greenyellow;
   position: absolute;
   height: 200px;
   width: 810px;
@@ -18,14 +18,13 @@ body {
   bottom: 0;
 }
 
-
 .noselect {
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-  }
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
 .arrow {
   position: absolute;
@@ -52,15 +51,12 @@ body {
   color: rgb(235, 6, 6);
   font-size: 40px;
   position: absolute;
-//   background-image: url("/../assets/img/gb_cart.png");
-  content: url("/../assets/img/gb_cart.png");
+  background-image: url("/../assets/img/gb_cart.png");
+  // background-size: cover;
+  background-repeat: no-repeat;
+  // content: url("/../assets/img/gb_cart.png");
   transition: height 1s, width 1s, left 1s, margin-top 1s, line-height 1s,
     background-color 1s;
-}
-
-.gameName{
-    color: #fff;
-    z-index: 9999;
 }
 
 $level2-height: 150px;
@@ -80,44 +76,49 @@ $level2-left: 50px;
   height: $level2-height;
   width: $level2-width;
   line-height: $level2-height;
-  //   background-color: #228291;
+  // background-color: #228291;
   left: $level-2-left;
   margin-top: 25px;
+  background-size: $level2-width $level2-height;
 }
 
 .level-1 {
   height: $level1-height;
   width: $level1-width;
   line-height: $level1-height;
-  //   background-color: #6796e5;
+  // background-color: #6796e5;
   left: $level-1-left;
   margin-top: 10px;
+  background-size: $level1-width $level1-height;
 }
 
 .level0 {
   height: $level0-height;
   width: $level0-width;
   line-height: $level0-height;
-  //   background-color: #4ec9e1;
+  // background-color: #4ec9e1;
   left: $level0-left;
+  background-size: $level0-width $level0-height;
 }
 
 .level1 {
   height: $level1-height;
   width: $level1-width;
   line-height: $level1-height;
-  //   background-color: #6796e5;
+  // background-color: #6796e5;
   margin-top: 10px;
   left: $level1-left;
+  background-size: $level1-width $level1-height;
 }
 
 .level2 {
   height: $level2-height;
   width: $level2-width;
   line-height: $level2-height;
-  //   background-color: #228291;
+  // background-color: #228291;
   margin-top: 25px;
   left: $level2-left;
+  background-size: $level2-width $level2-height;
 }
 
 .left-enter {
@@ -199,4 +200,3 @@ $level2-left: 50px;
   transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
     line-height 1s;
 }
-
