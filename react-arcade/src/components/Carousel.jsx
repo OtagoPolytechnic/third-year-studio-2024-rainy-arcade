@@ -1,38 +1,29 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { TransitionGroup } from "react-transition-group";
 import "./App.scss";
-
-const Item = ({ id, level }) => {
-  const [activeButton, setActiveButton] = useState(1)
-  const className = `item level${level}`;
-  return (
-    <div className={className}>
-      {id}
-    </div>
-  );
-};
-
-
+import { generateItems, moveLeft, moveRight } from "../utils/Arcade-Controls";
 
 const Carousel = ({ items, active }) => {
-  const [state, setState] = useState({
-    active: active,
+  //Active Button
+  const [buttonState, setButtonState] = useState({
+    active: 0,
     direction: "",
   });
 
-  const moveLeft = useCallback(() => {
-    setState((prevState) => ({
-      active: prevState.active === 0 ? items.length - 1 : prevState.active - 1,
-      direction: "left",
+   const moveLeft = useCallback(() => {
+    setButtonState((prevState) => ({
+        active: prevState.active === 0 ? items.length - 1 : prevState.active - 1,
+        direction: "left",
     }));
-  }, [items.length]);
+}, [items.length]);
 
-  const moveRight = useCallback(() => {
-    setState((prevState) => ({
-      active: (prevState.active + 1) % items.length,
-      direction: "right",
+ const moveRight = useCallback(() => {
+    setButtonState((prevState) => ({
+        active: (prevState.active + 1) % items.length,
+        direction: "right",
     }));
-  }, [items.length]);
+}, [items.length]);
+
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -43,7 +34,6 @@ const Carousel = ({ items, active }) => {
         // Right arrow key
         moveRight();
       }
-      console.log(state)
     };
 
     document.addEventListener("keydown", handleKeyPress);
@@ -53,31 +43,14 @@ const Carousel = ({ items, active }) => {
     };
   }, [moveLeft, moveRight]); // Re-add listeners if moveLeft or moveRight changes
 
-  const generateItems = () => {
-    const generatedItems = [];
-    for (let i = state.active - 2; i < state.active + 3; i++) {
-      let index = i;
-      if (i < 0) {
-        index = items.length + i;
-      } else if (i >= items.length) {
-        index = i % items.length;
-      }
-      const level = state.active - i;
-      generatedItems.push(
-        <CSSTransition key={index} classNames={state.direction} timeout={500}>
-          <Item id={items[index]} level={level} />
-        </CSSTransition>
-      );
-    }
-    return generatedItems;
-  };
+  
 
   return (
     <div id="carousel" className="noselect">
       <div className="arrow arrow-left" onClick={moveLeft}>
         <i className="fi-arrow-left"></i>
       </div>
-        <TransitionGroup>{generateItems()}</TransitionGroup>
+        <TransitionGroup>{generateItems(buttonState, items)}</TransitionGroup>
       <div className="arrow arrow-right" onClick={moveRight}>
         <i className="fi-arrow-right"></i>
       </div>
