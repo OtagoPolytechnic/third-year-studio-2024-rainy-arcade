@@ -1,57 +1,25 @@
 @import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
 
 body {
-  background-image: url("/../assets/img/grid_ani.gif");
+  background-image: url("/../assets/img/grid_ani.gif");  
+  background-image: url("/../assets/img/dim_grid_ani.gif");
   background-repeat: no-repeat;
   background-size: cover;
-  // //   background-image: url("/../assets/img/menu-background.png");
+  // background-image: url("/../assets/img/menu-background.png");
+  // background-image: url("/../assets/img/dim-menu-background.png");
   background-color: #000000;
 }
 
-.body{
-  opacity: 20%;
-}
+
 // OPA styling
 .OPA {
+  background-image: url("/../assets/img/neon_title.png") ;
+  background-repeat: no-repeat;
+  background-size: contain;
   margin: auto;
   width: 50%;
-  height: 10%;
+  height: 200px;;
   // background-color: aqua;
-}
-
-h1,
-h2,
-h3 {
-  color: #000;
-  text-align: center;
-  // font-size: 80px;
-  // background-color: #12f70a;
-  font-family: "Audiowide", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff,
-    0 0 42px rgb(0, 204, 255), 0 0 82px rgb(0, 204, 255),
-    0 0 92px rgb(0, 204, 255), 0 0 102px rgb(0, 204, 255),
-    0 0 151px rgb(0, 204, 255);
-}
-
-h1 {
-  font-size: 75px;
-}
-
-h2,
-h3 {
-  font-size: 30px;
-}
-
-h2 {
-  text-align: left;
-  padding-left: 10%;
-}
-
-h3 {
-  text-align: right;
-  padding-right: 10%;
 }
 
 // GameInfo styling

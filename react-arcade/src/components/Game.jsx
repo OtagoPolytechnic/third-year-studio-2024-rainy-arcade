@@ -25,23 +25,20 @@ function Game() {
 
   return (
     <div className="App">
-      <div className="OPA">
-        <h2>The</h2>
-        <h1>Otago Polytechnic</h1>
-        <h3>Arcade</h3>
-      </div>
+      <div className="OPA"></div>
       {/* End of OPA */}
       {/* <Ageform setGames={setGames} setPath={setPath}/> */}
-      <div class="gameInfo">
+      <div className="gameInfo">
         {/* <ul style={{ listStyleType: 'none', padding: 0 }}>
           {games.map(game => (
             <li key={game.game}> */}
         {/* <Button game={game.game} path={`${path}/${game.exepath}`}/> */}
-        <Button game="BadPac" path="./assets/games/BadPac.exe" />
+        <image src="../assets/img/logo_gb_cart.png"/>
         {/* </li>
           ))}
         </ul> */}
-      </div> {/* End of GameInfo*/}
+      </div>{" "}
+      {/* End of GameInfo*/}
     </div>
   );
 }
