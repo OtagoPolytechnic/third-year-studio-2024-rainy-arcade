@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import "./carousel.scss";
+import "./App.scss";
 
 const Item = ({ id, level }) => {
+  const [activeButton, setActiveButton] = useState(1)
   const className = `item level${level}`;
   return (
     <div className={className}>
-      <div className="gameName">Game</div>
-      {/* <img src="/../assets/img/gb_cart.png"/> */}
       {id}
     </div>
   );
 };
+
+
 
 const Carousel = ({ items, active }) => {
   const [state, setState] = useState({
@@ -42,6 +43,7 @@ const Carousel = ({ items, active }) => {
         // Right arrow key
         moveRight();
       }
+      console.log(state)
     };
 
     document.addEventListener("keydown", handleKeyPress);
