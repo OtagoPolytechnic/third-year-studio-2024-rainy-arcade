@@ -19,7 +19,6 @@ def identify_controllers():
         print("Error: Failed to execute AntiMicroX command.")
         return None
 
-# Example usage:
 controllers = identify_controllers()
 if controllers:
     print("Detected controllers:")
