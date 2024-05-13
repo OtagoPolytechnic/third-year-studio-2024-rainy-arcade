@@ -32,7 +32,7 @@ function Game() {
       </div>
       {/* End of OPA */}
       {/* <Ageform setGames={setGames} setPath={setPath}/> */}
-      <div class="gameInfo">
+      <div className="gameInfo">
         {/* <ul style={{ listStyleType: 'none', padding: 0 }}>
           {games.map(game => (
             <li key={game.game}> */}

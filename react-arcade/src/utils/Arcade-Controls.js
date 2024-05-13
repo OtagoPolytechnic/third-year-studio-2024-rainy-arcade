@@ -11,9 +11,10 @@ export const generateItems = (buttonState, items) => {
         index = i % items.length;
       }
       const level = buttonState.active - i;
+      console.log(items[index]);
       generatedItems.push(
         <CSSTransition key={index} classNames={buttonState.direction} timeout={500}>
-          <Item id={items[index]} level={level} />
+          <Item id={items[index]} level={level} selected={buttonState.active}/>
         </CSSTransition>
       );
     }

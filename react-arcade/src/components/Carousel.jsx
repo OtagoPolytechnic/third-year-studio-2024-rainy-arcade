@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { TransitionGroup } from "react-transition-group";
 import "./App.scss";
-import { generateItems, moveLeft, moveRight } from "../utils/Arcade-Controls";
+import { generateItems } from "../utils/Arcade-Controls";
 
 const Carousel = ({ items, active }) => {
   //Active Button
   const [buttonState, setButtonState] = useState({
-    active: 0,
+    active: "",
     direction: "",
   });
 
@@ -22,8 +22,8 @@ const Carousel = ({ items, active }) => {
         active: (prevState.active + 1) % items.length,
         direction: "right",
     }));
+    console.log(active);
 }, [items.length]);
-
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -33,6 +33,9 @@ const Carousel = ({ items, active }) => {
       } else if (event.keyCode === 39) {
         // Right arrow key
         moveRight();
+      } else if (event.keyCode === 13) {
+        // Enter key
+        console.log("Enter key pressed ", active);
       }
     };
 
@@ -40,10 +43,9 @@ const Carousel = ({ items, active }) => {
 
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
+      console.log(active);
     };
   }, [moveLeft, moveRight]); // Re-add listeners if moveLeft or moveRight changes
-
-  
 
   return (
     <div id="carousel" className="noselect">

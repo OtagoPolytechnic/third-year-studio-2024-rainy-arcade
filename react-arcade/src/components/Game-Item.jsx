@@ -1,8 +1,8 @@
-const Item = ({ id, level }) => {
+const Item = ({ id, level, selected }) => {
     const className = `item level${level}`;
     return (
       <div className={className}>
-        {id}
+        {id.game}
       </div>
     );
   };
