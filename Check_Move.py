@@ -5,7 +5,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 class DirectoryMonitor:
-    SOURCE_DIRECTORY = "uploads"
+    SOURCE_DIRECTORY = "./file-upload/upload"
     DESTINATION_DIRECTORY = "move"
 
     def __init__(self):

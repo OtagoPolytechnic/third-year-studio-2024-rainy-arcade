@@ -19,8 +19,14 @@ const Form = ({ devName, setDevName, gameName, setGameName, color, setColor, onS
       <input type="text" id="game-name" value={gameName} onChange={(e) => setGameName(e.target.value)} />
     </div> 
     <div className="form-group">
-      <label htmlFor="age-restriction">Age Restricted:</label>
-      <input type="checkbox" id="age-restriction" checked={isAgeRestricted} onChange={(e) => setIsAgeRestricted(e.target.checked)} />
+      <label htmlFor="esrb-rating">ESRB Rating:</label>
+      <select id="esrb-rating" value={isAgeRestricted} onChange={(e) => setIsAgeRestricted(e.target.value)}>
+        <option value="E">E (Everyone)</option>
+        <option value="E10+">E10+ (Everyone 10+)</option>
+        <option value="T">T (Teen)</option>
+        <option value="M">M (Mature 17+)</option>
+        <option value="AO">AO (Adults Only 18+)</option>
+      </select>
     </div>
     <div className="form-group">
       <label htmlFor="color">Color (RGB):</label>
@@ -35,7 +41,7 @@ function App() {
   const [devName, setDevName] = useState('');
   const [gameName, setGameName] = useState('');
   const [color, setColor] = useState('#000000');
-  const [isAgeRestricted, setIsAgeRestricted] = useState(false);
+  const [isAgeRestricted, setIsAgeRestricted] = useState('E'); // Initialize as 'E'
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -48,7 +54,7 @@ function App() {
     event.preventDefault();
 
     // Create text content for new text file
-    const textContent = `Dev Name: ${devName}\nGame Name: ${gameName}\nAge Restricted: ${isAgeRestricted ? 'Yes' : 'No'}`;
+    const textContent = `Dev Name: ${devName}\nGame Name: ${gameName}\nESRB Rating: ${isAgeRestricted}\nColor: ${color}`;
     const textFile = new Blob([textContent], { type: 'text/plain' });
     const dataFile = new File([textFile], "details.txt", { type: 'text/plain' });
 
