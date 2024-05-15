@@ -67,21 +67,24 @@ function App() {
 
   const sendFile = async (file, dataFile) => {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('dataFile', dataFile);
-
+    formData.append('devName', devName); // Append developer name first
+    formData.append('gameName', gameName); // Append game name second
+    formData.append('file', file); // Append file
+    formData.append('dataFile', dataFile); // Append additional data file
+  
     try {
       const response = await fetch('http://localhost:3001/upload', {
         method: 'POST',
-        body: formData,
+        body: formData
       });
-
       if (!response.ok) throw new Error('File upload failed');
       console.log('Files uploaded successfully');
     } catch (error) {
       console.error('Error uploading files:', error);
     }
   };
+  
+  
 
   return (
     <div className="App">
