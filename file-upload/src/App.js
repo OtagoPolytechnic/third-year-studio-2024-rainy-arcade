@@ -63,6 +63,10 @@ function App() {
     } else {
       console.error('No file selected');
     }
+
+    let name = `Dev | ${devName} - Game | ${gameName}`;
+
+    await sendData(name, color);
   };
 
   const sendFile = async (file, dataFile) => {
@@ -84,7 +88,21 @@ function App() {
     }
   };
   
-  
+  const sendData = async (name, color) => {
+    const data = { name, color };
+    try {
+      const response = await fetch('http://localhost:3002/data-send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) throw new Error('Data send failed');
+      console.log('Data sent successfully!');
+    } catch (error) {
+      console.error('Error sending data:', error);
+    }
+  };
 
   return (
     <div className="App">

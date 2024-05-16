@@ -12,7 +12,7 @@ app.use(cors());
 
 // Initialize serial port 
 const port = new SerialPort({
-  path: 'COM4',
+  path: 'COM3',
   baudRate: 115200,
 });
 

@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Create a new board object with COM4 as the port
-const board = new Board({ port: "COM4" });
+const board = new Board({ port: "COM3" });
 
 // When the board is ready, setup your routes and start the server
 board.on('ready', () => {
