@@ -7,17 +7,21 @@ import dotenv from "dotenv";
 const app = express();
 dotenv.config();
 
-
 const PORT = process.env.PORT
 //repo directory e.g "D:/third-year-studio-2024-rainy-arcade" 
 const DIRECTORY = process.env.REPO_DIRECTORY
-
+let isRunning = false
 app.use(json())
 app.use(cors());
 
 process.chdir(DIRECTORY);
 
 app.post('/executeShortcut', (req, res) => {
+    if (isRunning) {
+        res.status(500).send('Shortcut already running');
+        return;
+    }
+    isRunning = true;
     const { path: relativePath } = req.body
 
     const absolutePath = path.join(process.cwd(), relativePath);
@@ -36,6 +40,7 @@ app.post('/executeShortcut', (req, res) => {
         }
 
         console.log(`Output from shortcut: ${stdout}`);
+        isRunning = false;
         res.status(200).send('Shortcut executed successfully');
     });
 });
