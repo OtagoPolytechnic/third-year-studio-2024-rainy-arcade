@@ -1,29 +1,30 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { TransitionGroup } from "react-transition-group";
 import "./App.scss";
 import { generateItems } from "../utils/Arcade-Controls";
+import { launchGame } from "../utils/Arcade-Backend-Functions";
 
-const Carousel = ({ items, active }) => {
-  //Active Button
+const Carousel = ({ items, path, active }) => {
+  // Active Button
+  const [pressed, setPressed] = useState(false);
   const [buttonState, setButtonState] = useState({
-    active: "",
+    active: active || 0,
     direction: "",
   });
 
-   const moveLeft = useCallback(() => {
+  const moveLeft = useCallback(() => {
     setButtonState((prevState) => ({
-        active: prevState.active === 0 ? items.length - 1 : prevState.active - 1,
-        direction: "left",
+      active: prevState.active === 0 ? items.length - 1 : prevState.active - 1,
+      direction: "left",
     }));
-}, [items.length]);
+  }, [items.length]);
 
- const moveRight = useCallback(() => {
+  const moveRight = useCallback(() => {
     setButtonState((prevState) => ({
-        active: (prevState.active + 1) % items.length,
-        direction: "right",
+      active: (prevState.active + 1) % items.length,
+      direction: "right",
     }));
-    console.log(active);
-}, [items.length]);
+  }, [items.length]);
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -35,7 +36,7 @@ const Carousel = ({ items, active }) => {
         moveRight();
       } else if (event.keyCode === 13) {
         // Enter key
-        console.log("Enter key pressed ", active);
+        setPressed(true);
       }
     };
 
@@ -43,16 +44,23 @@ const Carousel = ({ items, active }) => {
 
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
-      console.log(active);
     };
-  }, [moveLeft, moveRight]); // Re-add listeners if moveLeft or moveRight changes
+  }, [moveLeft, moveRight]);
+
+  useEffect(() => {
+    if (pressed) {
+      console.log("pressed");
+      launchGame(`${path}/${items[buttonState.active].exepath}`);
+      setPressed(false);
+    }
+  }, [pressed, buttonState.active, items, path]);
 
   return (
     <div id="carousel" className="noselect">
       <div className="arrow arrow-left" onClick={moveLeft}>
         <i className="fi-arrow-left"></i>
       </div>
-        <TransitionGroup>{generateItems(buttonState, items)}</TransitionGroup>
+      <TransitionGroup>{generateItems(buttonState, items, path, pressed, setPressed)}</TransitionGroup>
       <div className="arrow arrow-right" onClick={moveRight}>
         <i className="fi-arrow-right"></i>
       </div>
