@@ -15,7 +15,11 @@ const App = () => {
           <div className="gameTitle">Game Title</div>
         </div>
           <Game/>
-          <Ageform setGames={setGames} setPath={setPath}/>
+          { !games.length > 0 ?
+            <Ageform setGames={setGames} setPath={setPath}/>
+            :
+            null
+          }
           {
             games.length > 0 ?
             <Carousel items={games} path={path} active={0} /> 

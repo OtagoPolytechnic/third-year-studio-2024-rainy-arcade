@@ -1,13 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
 
 body {
-  background-image: url("/../assets/img/grid_ani.gif");  
-  background-image: url("/../assets/img/dim_grid_ani.gif");
+  // background-image: url("/../assets/img/grid_ani.gif");  
+  // background-image: url("/../assets/img/dim_grid_ani.gif");
   background-repeat: no-repeat;
   background-size: cover;
   // background-image: url("/../assets/img/menu-background.png");
   // background-image: url("/../assets/img/dim-menu-background.png");
-  background-color: #000000;
+  // background-color: #000000;
 }
 
 
@@ -37,7 +37,7 @@ h2{
 }
 
 .gameTitle {
-  // background-color: #12f70a;
+  background-color: #12f70a;
 }
 
 // End of GameInfo
@@ -92,7 +92,7 @@ h2{
   // background-image: url("/../assets/img/logo_gb_cart.png");
   // background-attachment: fixed;
   // background-repeat: no-repeat;
-  // content: url("/../assets/img/logo_gb_cart.png");
+  content: url("/../assets/img/logo_gb_cart.png") / "game";
   // content: url("/../assets/img/gb_cart.png");
   transition: height 1s, width 1s, left 1s, margin-top 1s, line-height 1s,
     background-color 1s;
