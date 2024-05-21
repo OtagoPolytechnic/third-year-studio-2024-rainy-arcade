@@ -45,5 +45,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "archiver": "^7.0.1",
+    "unzipper": "^0.11.6"
+  }
 }

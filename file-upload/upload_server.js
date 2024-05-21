@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
+const unzipper = require('unzipper');
 
 const app = express();
 const port = 3001; // Ensure this is different from your React app's port
@@ -14,45 +15,69 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Function to check and create directory
+const checkAndCreateDir = (dir) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+};
+
 // Configure multer for file storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const gameName = req.body.gameName; // Ensure this is getting the game name
-    const dir = `./uploads/${gameName}`; // Create a directory path using game name
-
-    // Create directory if it does not exist
-    fs.exists(dir, exist => {
-      if (!exist) {
-        return fs.mkdir(dir, { recursive: true }, error => cb(error, dir));
-      }
-      return cb(null, dir);
-    });
+    const uploadDir = path.join(__dirname, 'uploads');
+    checkAndCreateDir(uploadDir);
+    cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    const gameName = req.body.gameName; // Get game name from the request
-    const fileExtension = path.extname(file.originalname); // Get file extension
-    cb(null, `${gameName}${fileExtension}`); // Set file name as game name
+    cb(null, file.originalname);
   }
 });
 
 const upload = multer({ storage }).fields([
-  { name: 'file', maxCount: 1 },
-  { name: 'dataFile', maxCount: 1 },
+  { name: 'zipFile', maxCount: 1 },
   { name: 'image', maxCount: 1 }
-]);
+]); // Accept a .zip file and an image file
 
 app.post('/upload', (req, res, next) => {
-  upload(req, res, function(err) {
+  upload(req, res, async function (err) {
     if (err instanceof multer.MulterError) {
       return res.status(500).send({ error: err.message });
     } else if (err) {
       return res.status(500).send({ error: err.message });
     }
-    // If no errors, proceed to log the data and send a success response
-    console.log('Developer Name:', req.body.devName);
-    console.log('Game Name:', req.body.gameName);
-    console.log('Controller:', req.body.controller);
-    res.send('Files uploaded successfully');
+
+    const { devName, gameName, isAgeRestricted, controller } = req.body; // Get form data
+    const baseDir = path.join(__dirname, 'moved', isAgeRestricted); // Base directory based on ESRB rating
+    const gameDir = path.join(baseDir, gameName); // Game specific directory
+
+    // Check and create directory
+    checkAndCreateDir(baseDir);
+    checkAndCreateDir(gameDir);
+
+    const zipFilePath = path.join(__dirname, 'uploads', req.files.zipFile[0].filename);
+    const imageFilePath = path.join(__dirname, 'uploads', req.files.image[0].filename);
+    const textFilePath = path.join(gameDir, 'details.txt');
+
+    // Create the .txt file with details
+    const textContent = `Dev Name: ${devName}\nGame Name: ${gameName}\nESRB Rating: ${isAgeRestricted}\nController: ${controller}`;
+    fs.writeFileSync(textFilePath, textContent);
+
+    // Extract the zip file
+    fs.createReadStream(zipFilePath)
+      .pipe(unzipper.Extract({ path: gameDir }))
+      .on('close', () => {
+        // Move the image file to the game directory
+        const destImagePath = path.join(gameDir, req.files.image[0].originalname);
+        fs.renameSync(imageFilePath, destImagePath);
+
+        // Delete the uploaded zip file
+        fs.unlinkSync(zipFilePath);
+        res.send('Files uploaded and extracted successfully');
+      })
+      .on('error', (err) => {
+        res.status(500).send({ error: err.message });
+      });
   });
 });
 
