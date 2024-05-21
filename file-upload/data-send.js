@@ -12,7 +12,7 @@ app.use(cors());
 
 // Initialize serial port 
 const port = new SerialPort({
-  path: 'COM3',
+  path: 'COM5',
   baudRate: 115200,
 });
 
@@ -27,7 +27,7 @@ app.post("/data-send", async (req, res) => {
   const message = `Name: ${name}, Color: ${color}\n`; // Format the message
   console.log(message);
   const color_message = `C${color}`;
-  const name_message = `T${name}`;
+  const name_message = `${name}`;
 
   port.write(color_message, (err) => {
     if (err) {
