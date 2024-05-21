@@ -5,13 +5,14 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 class DirectoryMonitor:
-    SOURCE_DIRECTORY = "./file-upload/upload"
+    SOURCE_DIRECTORY = "./file-upload/uploads"
     DESTINATION_DIRECTORY = "move"
-    ESRB_RATINGS = ['E', 'E10+', 'T', 'M', 'AO']  # Define ESRB ratings
+    ESRB_RATINGS = ['E', 'E10+', 'T', 'M', 'AO']
 
     def __init__(self):
         self.observer = Observer()
-        self.create_esrb_directories()  # Ensure ESRB directories are created on start
+        self.create_esrb_directories()
+        print("Instructions: Ensure the game name in the .txt file matches the name of the .exe file.")
 
     def create_esrb_directories(self):
         """Creates directories for each ESRB rating if they don't exist."""
@@ -21,7 +22,7 @@ class DirectoryMonitor:
 
     def start(self):
         event_handler = FileCreatedHandler()
-        self.observer.schedule(event_handler, self.SOURCE_DIRECTORY, recursive=False)
+        self.observer.schedule(event_handler, self.SOURCE_DIRECTORY, recursive=True)
         self.observer.start()
         print(f"Monitoring {self.SOURCE_DIRECTORY} for new files...")
         try:
@@ -35,20 +36,43 @@ class DirectoryMonitor:
 class FileCreatedHandler(FileSystemEventHandler):
     @staticmethod
     def on_created(event):
-        if event.is_directory:
+        if not event.is_directory:
             return None
 
-        file_path = event.src_path
-        print(f"Detected new file: {file_path}")
+        dir_path = event.src_path
+        print(f"Detected new directory: {dir_path}")
 
-        if file_path.endswith('.txt'):
-            game_name, esrb_rating = FileCreatedHandler.extract_game_details(file_path)
-            if game_name and esrb_rating:
-                FileCreatedHandler.handle_related_files(game_name, esrb_rating, file_path)
+        FileCreatedHandler.check_and_move_folder(dir_path)
+
+    @staticmethod
+    def check_and_move_folder(dir_path, attempts=4):
+        """Check for at least 3 files in the directory, wait if not enough, and move the folder."""
+        for attempt in range(attempts):
+            files_in_dir = os.listdir(dir_path)
+            print(f"Attempt {attempt + 1}: Files in directory: {files_in_dir}")
+
+            if len(files_in_dir) >= 3:
+                time.sleep(5)  # Wait for 5 seconds to ensure files are stable
+                txt_file_path = next(f for f in files_in_dir if f.endswith('.txt'))
+                txt_file_full_path = os.path.join(dir_path, txt_file_path)
+                game_name, esrb_rating = FileCreatedHandler.extract_game_details(txt_file_full_path)
+                print(f"Extracted game name: {game_name}, ESRB rating: {esrb_rating}")
+
+                if game_name and esrb_rating:
+                    FileCreatedHandler.move_folder(dir_path, game_name, esrb_rating)
+                    return
+                else:
+                    print("Game name or ESRB rating not found in the .txt file.")
+                    return
+            else:
+                print("Not enough files, waiting for 10 seconds...")
+                time.sleep(10)
+        
+        print("Not all files uploaded after 4 attempts.")
 
     @staticmethod
     def extract_game_details(file_path):
-        """Extracts game name and ESRB rating from the given txt file"""
+        """Extracts game name and ESRB rating from the given txt file."""
         game_name = None
         esrb_rating = None
         with open(file_path, 'r') as file:
@@ -60,30 +84,11 @@ class FileCreatedHandler(FileSystemEventHandler):
         return game_name, esrb_rating
 
     @staticmethod
-    def handle_related_files(game_name, esrb_rating, txt_file_path):
-        """Handle the renaming, moving of files and organizing them based on ESRB rating"""
-        source_dir = os.path.dirname(txt_file_path)
-        game_folder_path = os.path.join(DirectoryMonitor.DESTINATION_DIRECTORY, game_name)
-        os.makedirs(game_folder_path, exist_ok=True)
-
-        # Move and rename the txt file
-        new_txt_path = os.path.join(game_folder_path, 'assets.txt')
-        shutil.move(txt_file_path, new_txt_path)
-        print(f"Moved and renamed txt file to {new_txt_path}")
-
-        # Move other files to game folder
-        for file_name in os.listdir(source_dir):
-            if file_name != os.path.basename(new_txt_path):
-                original_file_path = os.path.join(source_dir, file_name)
-                new_file_path = os.path.join(game_folder_path, f"{game_name}{os.path.splitext(file_name)[1]}")
-                shutil.move(original_file_path, new_file_path)
-                print(f"Moved {original_file_path} to {new_file_path}")
-
-        # Move the entire game folder to the corresponding ESRB rating folder
-        esrb_folder_path = os.path.join(DirectoryMonitor.DESTINATION_DIRECTORY, esrb_rating)
-        final_destination_path = os.path.join(esrb_folder_path, game_name)
-        shutil.move(game_folder_path, final_destination_path)
-        print(f"Moved game folder to {final_destination_path}")
+    def move_folder(dir_path, game_name, esrb_rating):
+        """Move the entire folder to the corresponding ESRB rating folder."""
+        destination_folder = os.path.join(DirectoryMonitor.DESTINATION_DIRECTORY, esrb_rating, game_name)
+        shutil.move(dir_path, destination_folder)
+        print(f"Moved folder {dir_path} to {destination_folder}")
 
 if __name__ == '__main__':
     monitor = DirectoryMonitor()

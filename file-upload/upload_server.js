@@ -17,8 +17,8 @@ app.use(express.json());
 // Configure multer for file storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const devName = req.body.devName; // Get developer name from the request
-    const dir = `./uploads/${devName}`; // Create a directory path
+    const gameName = req.body.gameName; // Ensure this is getting the game name
+    const dir = `./uploads/${gameName}`; // Create a directory path using game name
 
     // Create directory if it does not exist
     fs.exists(dir, exist => {
@@ -37,7 +37,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage }).fields([
   { name: 'file', maxCount: 1 },
-  { name: 'dataFile', maxCount: 1 }
+  { name: 'dataFile', maxCount: 1 },
+  { name: 'image', maxCount: 1 }
 ]);
 
 app.post('/upload', (req, res, next) => {
@@ -50,11 +51,10 @@ app.post('/upload', (req, res, next) => {
     // If no errors, proceed to log the data and send a success response
     console.log('Developer Name:', req.body.devName);
     console.log('Game Name:', req.body.gameName);
+    console.log('Controller:', req.body.controller);
     res.send('Files uploaded successfully');
   });
 });
-
-
 
 // Start the server
 app.listen(port, () => {
