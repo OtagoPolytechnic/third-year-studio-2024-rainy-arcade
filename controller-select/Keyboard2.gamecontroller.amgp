@@ -13,24 +13,16 @@
         <vdpadButtonAssociation axis="0" button="15" direction="2"/>
     </vdpadButtonAssociations>
     <names>
-        <controlstickname index="1">L Stick</controlstickname>
-        <controlstickname index="2">R Stick</controlstickname>
+        <controlstickname index="1">Stick 1</controlstickname>
+        <controlstickname index="2">Stick 2</controlstickname>
     </names>
     <sets>
         <set index="1">
             <stick index="1">
-                <stickbutton index="3">
+                <stickbutton index="5">
                     <slots>
                         <slot>
-                            <code>0x1000014</code>
-                            <mode>keyboard</mode>
-                        </slot>
-                    </slots>
-                </stickbutton>
-                <stickbutton index="1">
-                    <slots>
-                        <slot>
-                            <code>0x1000013</code>
+                            <code>0x1000015</code>
                             <mode>keyboard</mode>
                         </slot>
                     </slots>
@@ -43,10 +35,18 @@
                         </slot>
                     </slots>
                 </stickbutton>
-                <stickbutton index="5">
+                <stickbutton index="1">
                     <slots>
                         <slot>
-                            <code>0x1000015</code>
+                            <code>0x1000013</code>
+                            <mode>keyboard</mode>
+                        </slot>
+                    </slots>
+                </stickbutton>
+                <stickbutton index="3">
+                    <slots>
+                        <slot>
+                            <code>0x1000014</code>
                             <mode>keyboard</mode>
                         </slot>
                     </slots>
@@ -66,34 +66,10 @@
                     </slot>
                 </slots>
             </button>
-            <button index="11">
+            <button index="7">
                 <slots>
                     <slot>
-                        <code>0x4b</code>
-                        <mode>keyboard</mode>
-                    </slot>
-                </slots>
-            </button>
-            <button index="10">
-                <slots>
-                    <slot>
-                        <code>0x47</code>
-                        <mode>keyboard</mode>
-                    </slot>
-                </slots>
-            </button>
-            <button index="3">
-                <slots>
-                    <slot>
-                        <code>0x48</code>
-                        <mode>keyboard</mode>
-                    </slot>
-                </slots>
-            </button>
-            <button index="4">
-                <slots>
-                    <slot>
-                        <code>0x5a</code>
+                        <code>0x1000004</code>
                         <mode>keyboard</mode>
                     </slot>
                 </slots>
@@ -101,7 +77,7 @@
             <button index="1">
                 <slots>
                     <slot>
-                        <code>0x46</code>
+                        <code>0x4a</code>
                         <mode>keyboard</mode>
                     </slot>
                 </slots>
@@ -109,15 +85,39 @@
             <button index="2">
                 <slots>
                     <slot>
-                        <code>0x4a</code>
+                        <code>0x48</code>
                         <mode>keyboard</mode>
                     </slot>
                 </slots>
             </button>
-            <button index="7">
+            <button index="3">
                 <slots>
                     <slot>
-                        <code>0x1000004</code>
+                        <code>0x47</code>
+                        <mode>keyboard</mode>
+                    </slot>
+                </slots>
+            </button>
+            <button index="4">
+                <slots>
+                    <slot>
+                        <code>0x46</code>
+                        <mode>keyboard</mode>
+                    </slot>
+                </slots>
+            </button>
+            <button index="10">
+                <slots>
+                    <slot>
+                        <code>0x5a</code>
+                        <mode>keyboard</mode>
+                    </slot>
+                </slots>
+            </button>
+            <button index="11">
+                <slots>
+                    <slot>
+                        <code>0x4b</code>
                         <mode>keyboard</mode>
                     </slot>
                 </slots>
