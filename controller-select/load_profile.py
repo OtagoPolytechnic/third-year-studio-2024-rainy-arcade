@@ -47,9 +47,9 @@ def find_control_line(file_path):
     try:
         with open(file_path, 'r') as file:
             for line in file:
-                if line.startswith("Control:"):
+                if line.startswith("Controller:"):
                     return line.strip().split(":")[1].strip()
-        print("Control line not found in the file.")
+        print("Controller line not found in the file.")
         return None
     except FileNotFoundError:
         print(f"Error: File '{file_path}' not found.")
