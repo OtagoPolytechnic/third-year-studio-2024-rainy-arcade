@@ -1,30 +1,32 @@
-import React from "react";
-import "./App.css";
-import Button from "./components/button";
+import React, { useEffect, useState } from "react";
+// import "./App.css";
+import Ageform from "./components/ageform";
+import Carousel from "./components/Carousel";
+import Game from "./components/Game";
 
-function App() {
-
-  let temp = [{game: "PacMan", path: "react-arcade/assets/games/BadPac.exe"},
-              {game: "NotPacMan", path:"NoWhere"}]
+const App = () => {
+  const [games, setGames] = useState([])
+  const [path, setPath] =  useState("")
 
   return (
     <div className="App">
-      <h1>The Otago Polytechnic Arcade</h1>
-      <div class="gameSelect">
-        <ul style={{ listStyleType: 'none', padding: 0 }}>
-          {temp.map(game => (
-            <li key={game.game}>
-              <Button game={game.game} path={game.path}/>
-            </li>
-          ))}
-        </ul>
-
-        <div class="bottomNav">
-          <div class="backButton">
-              <button type="button">Home</button>
-          </div>
+      <div>
+        <div id="gameInfo">
+          <div className="gameTitle">Game Title</div>
         </div>
-      </div>
+          <Game/>
+          { !games.length > 0 ?
+            <Ageform setGames={setGames} setPath={setPath}/>
+            :
+            null
+          }
+          {
+            games.length > 0 ?
+            <Carousel items={games} path={path} active={0} /> 
+            :
+            <div>Loading...</div>
+          }
+      </div>    
     </div>
   );
 }
