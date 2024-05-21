@@ -1,5 +1,6 @@
 import express, {json} from "express"
 import { exec } from "child_process"
+import { spawn } from "child_process";
 import cors from "cors"
 import path from "path"
 import fs from "fs"
@@ -22,28 +23,31 @@ app.post('/executeShortcut', (req, res) => {
         return;
     }
     isRunning = true;
-    const { path: relativePath } = req.body
+    const { path: relativePath } = req.body;
 
     const absolutePath = path.join(process.cwd(), relativePath);
 
-    exec(`"${absolutePath}"`, (error, stdout, stderr) => {
+    exec(`start "" "${absolutePath}"`, (error, stdout, stderr) => {
         if (error) {
-        console.error(`Error executing shortcut: ${error}`);
-        res.status(500).send('Error executing shortcut');
-        return;
+            console.error(`Error executing shortcut: ${error}`);
+            res.status(500).send('Error executing shortcut');
+            isRunning = false;
+            return;
         }
 
         if (stderr) {
-        console.error(`Error output from shortcut: ${stderr}`);
-        res.status(500).send('Error executing shortcut');
-        return;
+            console.error(`Error output from shortcut: ${stderr}`);
+            res.status(500).send('Error executing shortcut');
+            isRunning = false;
+            return;
         }
 
         console.log(`Output from shortcut: ${stdout}`);
-        isRunning = false;
         res.status(200).send('Shortcut executed successfully');
+        isRunning = false;
     });
 });
+
 
 app.get("/getGames", (req, res) => {
     try {
