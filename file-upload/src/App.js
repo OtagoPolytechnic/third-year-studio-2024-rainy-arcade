@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import './App.css';
 
-const FileUploader = ({ onFileSelect }) => (
+const ZipUploader = ({ onFileSelect }) => (
   <div className="file-uploader">
-    <input type="file" id="file-upload" onChange={onFileSelect} style={{display: 'none'}} />
-    <label htmlFor="file-upload" className="submit-button">Choose File</label>
+    <input
+      type="file"
+      id="zip-upload"
+      accept=".zip"
+      onChange={onFileSelect}
+      style={{ display: 'none' }}
+    />
+    <label htmlFor="zip-upload" className="submit-button">Choose .zip File</label>
   </div>
 );
 
 const ImageUploader = ({ onFileSelect }) => (
   <div className="file-uploader">
-    <input type="file" id="image-upload" onChange={onFileSelect} style={{display: 'none'}} />
+    <input type="file" id="image-upload" onChange={onFileSelect} style={{ display: 'none' }} />
     <label htmlFor="image-upload" className="submit-button">Choose Image</label>
   </div>
 );
@@ -49,48 +55,35 @@ const Form = ({ devName, setDevName, gameName, setGameName, color, setColor, con
 );
 
 function App() {
-  const [file, setFile] = useState(null);
-  const [image, setImage] = useState(null);
+  const [zipFile, setZipFile] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [devName, setDevName] = useState('');
   const [gameName, setGameName] = useState('');
   const [color, setColor] = useState('#000000');
   const [controller, setController] = useState('Keyboard');
   const [isAgeRestricted, setIsAgeRestricted] = useState('E');
 
-  const handleFileChange = (event) => {
+  const handleZipFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setFile(file);
+      setZipFile(file);
     }
   };
 
-  const handleImageChange = (event) => {
-    const image = event.target.files[0];
-    if (image) {
-      setImage(image);
-    }
-  };
-
-  const formatSize = (size) => {
-    const mbSize = size / (1024 * 1024);
-    if (mbSize >= 1024) {
-      return (mbSize / 1024).toFixed(2) + ' GB';
-    } else {
-      return mbSize.toFixed(2) + ' MB';
+  const handleImageFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImageFile(file);
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const textContent = `Dev Name: ${devName}\nGame Name: ${gameName}\nESRB Rating: ${isAgeRestricted}\nController: ${controller}\nColor: ${color}`;
-    const textFile = new Blob([textContent], { type: 'text/plain' });
-    const dataFile = new File([textFile], "details.txt", { type: 'text/plain' });
-
-    if (file && image) {
-      await sendFile(file, dataFile, image);
+    if (zipFile && imageFile) {
+      await sendFiles(zipFile, imageFile);
     } else {
-      console.error('File or image not selected');
+      console.error('Zip file or image file not selected');
     }
 
     let name = `Dev | ${devName} - Game | ${gameName}`;
@@ -98,13 +91,14 @@ function App() {
     await sendData(name, color);
   };
 
-  const sendFile = async (file, dataFile, image) => {
+  const sendFiles = async (zipFile, imageFile) => {
     const formData = new FormData();
     formData.append('devName', devName);
     formData.append('gameName', gameName);
-    formData.append('file', file);
-    formData.append('dataFile', dataFile);
-    formData.append('image', image);
+    formData.append('isAgeRestricted', isAgeRestricted); // Include ESRB rating
+    formData.append('zipFile', zipFile);
+    formData.append('image', imageFile);
+    formData.append('controller', controller); // Include controller
 
     try {
       const response = await fetch('http://localhost:3001/upload', {
@@ -137,19 +131,19 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>Instructions: Ensure the game name matches the name of the .exe file name please.</p>
-        <FileUploader onFileSelect={handleFileChange} />
-        <ImageUploader onFileSelect={handleImageChange} />
-        {file && (
+        <p>Instructions: Ensure the game is in = root folder and zipped to upload</p>
+        <ZipUploader onFileSelect={handleZipFileChange} />
+        <ImageUploader onFileSelect={handleImageFileChange} />
+        {zipFile && (
           <div>
-            <p>File Name: {file.name}</p>
-            <p>File Size: {formatSize(file.size)}</p>
+            <p>Zip File Name: {zipFile.name}</p>
+            <p>Zip File Size: {(zipFile.size / (1024 * 1024)).toFixed(2)} MB</p>
           </div>
         )}
-        {image && (
+        {imageFile && (
           <div>
-            <p>Image Name: {image.name}</p>
-            <p>Image Size: {formatSize(image.size)}</p>
+            <p>Image File Name: {imageFile.name}</p>
+            <p>Image File Size: {(imageFile.size / (1024 * 1024)).toFixed(2)} MB</p>
           </div>
         )}
         <Form 
