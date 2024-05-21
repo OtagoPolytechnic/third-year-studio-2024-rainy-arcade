@@ -6,6 +6,8 @@ export const getGames = async (setGames, setPath, over18) => {
 
         setGames(() => response.data.games)
         setPath(() => response.data.path)
+
+        console.log(response)
       } catch (error) {
         console.log(error)
     }

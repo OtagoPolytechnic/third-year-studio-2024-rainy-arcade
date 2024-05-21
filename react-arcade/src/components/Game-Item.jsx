@@ -1,10 +1,13 @@
-const Item = ({ id, level, selected }) => {
-    const className = `item level${level}`;
-    return (
-      <div className={className}>
-        {id.game}
-      </div>
-    );
-  };
+import "./App.scss";
 
-  export default Item
+const Item = (item) => {
+  // console.log(item)
+  const className = "";
+  return (
+    <div className={"game-item"}>
+      {item.item.game}
+    </div>
+  );
+};
+
+export default Item

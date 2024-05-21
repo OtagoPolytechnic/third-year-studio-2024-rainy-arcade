@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Ageform from "./components/ageform";
 import Carousel from "./components/Carousel";
 import Game from "./components/Game";
+import Item from "./components/Game-Item";
 
 const App = () => {
   const [games, setGames] = useState([])
@@ -26,6 +27,7 @@ const App = () => {
             :
             <div>Loading...</div>
           }
+
       </div>    
     </div>
   );
