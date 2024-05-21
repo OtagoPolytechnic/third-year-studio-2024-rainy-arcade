@@ -131,7 +131,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>Instructions: Ensure the game name matches the name of the .exe file name please.</p>
+        <p>Instructions: Ensure the game is in = root folder and zipped to upload</p>
         <ZipUploader onFileSelect={handleZipFileChange} />
         <ImageUploader onFileSelect={handleImageFileChange} />
         {zipFile && (
