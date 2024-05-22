@@ -22,51 +22,66 @@ app.post('/executeShortcut', (req, res) => {
         return;
     }
     isRunning = true;
-    const { path: relativePath, antiMicroPath: antiMicroPath } = req.body;
 
-    const controller = path.join(process.cwd(), `./move/controller-select/load_profile.py`);
-    const newDirectory = path.join(DIRECTORY, antiMicroPath);
-    process.chdir(newDirectory);
-    exec(`"${controller}"`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error executing shortcut: ${error}`);
-            res.status(500).send('Error executing shortcut');
-            isRunning = false;
-            return;
-        }
+    const { path: relativePath, antiMicroPath } = req.body;
 
-        if (stderr) {
-            console.error(`Error output from shortcut: ${stderr}`);
-            res.status(500).send('Error executing shortcut');
-            isRunning = false;
-            return;
-        }
-
-        console.log(`Output from shortcut: successful`);
-    });
-
-    process.chdir(DIRECTORY);
-    const absolutePath = path.join(process.cwd(), relativePath);
-    exec(`start "" "${absolutePath}"`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error executing shortcut: ${error}`);
-            res.status(500).send('Error executing shortcut');
-            isRunning = false;
-            return;
-        }
-
-        if (stderr) {
-            console.error(`Error output from shortcut: ${stderr}`);
-            res.status(500).send('Error executing shortcut');
-            isRunning = false;
-            return;
-        }
-
-        console.log(`Output from shortcut: ${stdout}`);
+    // Ensure the required parameters are provided
+    if (!relativePath || !antiMicroPath) {
+        res.status(400).send('Missing required parameters');
         isRunning = false;
-        res.status(200).send('Shortcut executed successfully');
+        return;
+    }
+
+    const newDirectory = path.join(DIRECTORY, antiMicroPath);
+
+    process.chdir(newDirectory);
+    
+    exec(`"../../../controller-select/load_profile.py"`, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing shortcut: ${error}`);
+            res.status(500).send('Error executing shortcut');
+            isRunning = false;
+            process.chdir(DIRECTORY); // Ensure we switch back to the original directory
+            return;
+        }
+
+        if (stderr) {
+            console.error(`Error output from shortcut: ${stderr}`);
+            res.status(500).send('Error executing shortcut');
+            isRunning = false;
+            process.chdir(DIRECTORY); // Ensure we switch back to the original directory
+            return;
+        }
+
+        console.log('Output from shortcut: successful');
+
+        // Switch back to the original directory
+        process.chdir(DIRECTORY);
+
+        const absolutePath = path.join(DIRECTORY, relativePath);
+
+        exec(`start "" "${absolutePath}"`, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error executing shortcut: ${error}`);
+                res.status(500).send('Error executing shortcut');
+                isRunning = false;
+                return;
+            }
+
+            if (stderr) {
+                console.error(`Error output from shortcut: ${stderr}`);
+                res.status(500).send('Error executing shortcut');
+                isRunning = false;
+                return;
+            }
+
+            console.log(`Output from shortcut: ${stdout}`);
+            isRunning = false;
+            res.status(200).send('Shortcut executed successfully');
+        });
     });
 });
+
 
 
 app.get("/getGames", (req, res) => {
