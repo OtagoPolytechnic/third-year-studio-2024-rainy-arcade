@@ -1,8 +1,8 @@
 import axios from "axios"
 
-export const getGames = async (setGames, setPath, age) => {
+export const getGames = async (setGames, setPath, index) => {
     try {
-        const response = await axios.get("http://localhost:3001/getGames", { params: { age: age }});
+        const response = await axios.get("http://localhost:3001/getGames", { params: { esrb: index }});
 
         setGames(() => response.data.games)
         setPath(() => response.data.path)

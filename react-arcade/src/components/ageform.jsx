@@ -1,24 +1,33 @@
 import { useEffect, useRef, useState } from "react"
 import { getGames } from "../utils/Arcade-Backend-Functions"
 const Ageform = ({setGames, setPath}) => { 
-    const [age, setAge] = useState(0)
-    const ageRef = useRef(age);
+    const [index, setIndex] = useState(0)
+    const indexRef = useRef(index);
+    const ratings = ["E", "E10+", "T", "M", "AO"]
 
     useEffect(() => {
         // Update the ref whenever age changes
-        ageRef.current = age;
-    }, [age]);
+        indexRef.current = index;
+    }, [index]);
 
     useEffect(() => {
         const keydown = (e) => {
             if(e.key === "ArrowUp"){
-                setAge((prevAge) => prevAge + 1)
+                if(indexRef.current >= ratings.length -1){
+                    setIndex(4)
+                } else {
+                setIndex((prevIndex) => prevIndex + 1)
+                }
             }
             if(e.key === "ArrowDown"){
-                setAge((prevAge) => prevAge - 1)
+                if(indexRef.current <= 0){
+                    setIndex(0)
+                } else {
+                setIndex((prevIndex) => prevIndex - 1)
+                }
             }
             if(e.key === "Enter"){
-                getGames(setGames, setPath, ageRef.current)
+                getGames(setGames, setPath, ratings[indexRef.current])
             }
         }
     window.addEventListener('keydown', keydown);
@@ -31,11 +40,11 @@ const Ageform = ({setGames, setPath}) => {
 
     return(
         <div className="ageCheck">
-            <h1>Enter your age</h1>
+            <h1>Select Maximum ESRB Rating</h1>
             <h2>^</h2>
-            <h2>{age}</h2>
+            <h2>{ratings[index]}</h2>
             <h2>v</h2>
-            <p>Press Enter to submit age</p>
+            <p>Press Enter to submit ESRB</p>
         </div>
     )
 }

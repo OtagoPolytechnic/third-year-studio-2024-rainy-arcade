@@ -11,9 +11,6 @@ const App = () => {
   return (
     <div className="App">
       <div>
-        <div id="gameInfo">
-          <div className="gameTitle">Game Title</div>
-        </div>
           <Game/>
           { !games.length > 0 ?
             <Ageform setGames={setGames} setPath={setPath}/>

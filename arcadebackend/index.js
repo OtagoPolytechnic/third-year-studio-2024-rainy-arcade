@@ -50,48 +50,71 @@ app.post('/executeShortcut', (req, res) => {
 
 app.get("/getGames", (req, res) => {
     try {
-        const age = req.query.age;
-        const games = []
-        let exepath = ""
-        let path = "./move"
-        let items = []
-        const ratings = [{rating:"E", age:0}, {rating:"E10+", age:10}, {rating:"T", age:13}, {rating:"M", age:17}, {rating:"AO", age:18}]
-        
-        ratings.forEach(rating => {
+        const esrb = req.query.esrb;
+        const ratings = ["E", "E10+", "T", "M", "AO"];
+        const games = [];
+        const basePath = "./move";
+        let breakloop = false;
 
-            if (age >= rating.age){
-                path = `./move/${rating.rating}`
-                let gamesDir = fs.readdirSync(path)
+        // Ensure the esrb rating is valid
+        if (!ratings.includes(esrb)) {
+            return res.status(400).json({ error: "Invalid ESRB rating" });
+        }
+        // Loop through the ratings up to the selected ESRB rating
+        for (const rating of ratings) {
+            const ratingPath = `${basePath}/${rating}`;
 
-                if (gamesDir !== null){
-
-                    gamesDir.forEach(game => {
-                        path = `./move/${rating.rating}/${game}`
-                        const newItem = fs.readdirSync(path)
-
-                        newItem.forEach(content => {
-
-                            if (!content.includes(".")){ 
-                                const folderContents = fs.readdirSync(`${path}/${content}`)
-                                folderContents.forEach(gamescontent => {
-
-                                    if (gamescontent.includes(".exe") && !content.includes("UnityCrashHandler32.exe")) {
-                                        exepath = `${rating.rating}/${game}/${content}`
-                                    }
-                                })
-                            } 
-                        })
-                        games.push({game: game, folderContents: newItem, exepath: exepath})
-                    })
-                }
+            if (breakloop){
+                break;
             }
-        })
+            // Stop looping if we reached the selected ESRB rating
+            if (rating === esrb){
+                console.log(rating, esrb)
+                breakloop = true;
+            } 
 
-        res.status(200).json({path : "./move", games: games})
+            // Read the games directory for the current rating
+            const gamesDir = fs.readdirSync(ratingPath, { withFileTypes: true });
+
+            gamesDir.forEach(gameDirent => {
+                if (gameDirent.isDirectory()) {
+                    const game = gameDirent.name;
+                    const gamePath = `${ratingPath}/${game}`;
+                    const gameContents = fs.readdirSync(gamePath, { withFileTypes: true });
+
+                    let exepath = "";
+
+                    gameContents.forEach(contentDirent => {
+                        if (contentDirent.isDirectory()) {
+                            // console.log(contentDirent.name);
+                            const contentPath = `${gamePath}/${contentDirent.name}`;
+
+                            const folderContents = fs.readdirSync(contentPath);
+                            console.log(folderContents); 
+
+                            folderContents.forEach(file => {
+                                if (file.endsWith(".exe") && file !== "UnityCrashHandler32.exe") {
+                                    exepath = `${rating}/${game}/${contentDirent.name}/${file}`;
+                                }
+                            });
+                        }
+                    });
+
+                    games.push({
+                        game: game,
+                        folderContents: gameContents.map(content => content.name),
+                        exepath: exepath
+                    });
+                }
+            });
+        }
+
+        res.status(200).json({ path: basePath, games: games });
     } catch (error) {
-        res.status(404).json({error: error})
+        res.status(404).json({ error: error.message });
     }
-})
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`)
