@@ -13,10 +13,11 @@ export const getGames = async (setGames, setPath, index) => {
     }
 }
 
-export const launchGame = async (path) => {
+export const launchGame = async (path, antiMicroPath) => {
   try {
     await axios.post("http://localhost:3001/executeShortcut", {
       path: path,
+      antiMicroPath: antiMicroPath
     });
   } catch (error) {
     console.log(error)

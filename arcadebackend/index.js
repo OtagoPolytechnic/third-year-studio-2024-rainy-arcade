@@ -22,10 +22,31 @@ app.post('/executeShortcut', (req, res) => {
         return;
     }
     isRunning = true;
-    const { path: relativePath } = req.body;
+    const { path: relativePath, antiMicroPath: antiMicroPath } = req.body;
 
+    const controller = path.join(process.cwd(), `./move/controller-select/load_profile.py`);
+    const newDirectory = path.join(DIRECTORY, antiMicroPath);
+    process.chdir(newDirectory);
+    exec(`"${controller}"`, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing shortcut: ${error}`);
+            res.status(500).send('Error executing shortcut');
+            isRunning = false;
+            return;
+        }
+
+        if (stderr) {
+            console.error(`Error output from shortcut: ${stderr}`);
+            res.status(500).send('Error executing shortcut');
+            isRunning = false;
+            return;
+        }
+
+        console.log(`Output from shortcut: successful`);
+    });
+
+    process.chdir(DIRECTORY);
     const absolutePath = path.join(process.cwd(), relativePath);
-
     exec(`start "" "${absolutePath}"`, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing shortcut: ${error}`);
@@ -90,10 +111,9 @@ app.get("/getGames", (req, res) => {
                             const contentPath = `${gamePath}/${contentDirent.name}`;
 
                             const folderContents = fs.readdirSync(contentPath);
-                            console.log(folderContents); 
 
                             folderContents.forEach(file => {
-                                if (file.endsWith(".exe") && file !== "UnityCrashHandler32.exe") {
+                                if (file.endsWith(".exe") && file !== "UnityCrashHandler64.exe") {
                                     exepath = `${rating}/${game}/${contentDirent.name}/${file}`;
                                 }
                             });
@@ -103,7 +123,8 @@ app.get("/getGames", (req, res) => {
                     games.push({
                         game: game,
                         folderContents: gameContents.map(content => content.name),
-                        exepath: exepath
+                        exepath: exepath,
+                        antiMicroPath: `${rating}/${game}`
                     });
                 }
             });
