@@ -70,35 +70,129 @@
 
 // export default Carousel;
 
-import React, { useEffect, useState } from 'react';
-import Item from './Game-Item';
-import { launchGame } from '../utils/Arcade-Backend-Functions';
+// import React, { useEffect, useState } from "react";
+// import Item from "./Game-Item";
+// import { launchGame } from "../utils/Arcade-Backend-Functions";
+// import "./App.scss";
+
+// const Carousel = ({ items, setActive }) => {
+//   const [index, setIndex] = useState(0);
+//   // let Image = require("../assets/img/grid_ani.gif");
+//   // let Image = require("../assets/img/gb_cart.png");
+//   let Image = require("../assets/games/old/BadPac/Space Fight.jfif");
+  
+
+//   const handlePrevious = () => {
+//     const newIndex = index - 1;
+//     setIndex(newIndex < 0 ? items.length - 1 : newIndex);
+//   };
+
+//   const handleNext = () => {
+//     const newIndex = index + 1;
+//     setIndex(newIndex >= items.length ? 0 : newIndex);
+//   };
+//   useEffect(() => {
+//     setActive(items[index]);
+//   }, [index]);
+
+
+//   // What is displayed
+//   return (
+//     <div className="carousel">
+
+
+//       <div className="gameSelector">
+//         <button onClick={handlePrevious} className="prevButton">
+//           Previous
+//         </button>
+//         <div className="gameTile">
+//           <Item item={items[index]} />
+//           <img src={Image} className="gameImg" />
+//         </div>
+//         <button onClick={handleNext} className="nextButton">
+//           Next
+//         </button>
+//       </div>
+
+//       <div className="launchBar">
+//         <button
+//           onClick={() => launchGame(`${items.path}/${items[index].exepath}`)}
+//           className="launchButton"
+//         >
+//           launch
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Carousel;
+
+
+import React, { useEffect, useState } from "react";
+import Item from "./Game-Item";
+import { launchGame } from "../utils/Arcade-Backend-Functions";
 import "./App.scss";
 
-const Carousel = ({items, setActive}) => {
-    const [index, setIndex] = useState(0);
-    let Image = require("../assets/img/gb_cart.png");
-    const handlePrevious = () => {
-        const newIndex = index - 1;
-        setIndex(newIndex < 0 ? items.items.length - 1 : newIndex);
-    };
-    
+const Carousel = ({ items, setActive }) => {
+  const [index, setIndex] = useState(0);
+  // let Image = require("../assets/img/grid_ani.gif");
+  // let Image = require("../assets/img/gb_cart.png");
+  let Image = require("../assets/games/old/BadPac/Space Fight.jfif");
+
+  const handlePrevious = () => {
+    const newIndex = index - 1;
+    setIndex(newIndex < 0 ? items.length - 1 : newIndex);
+  };
+
   const handleNext = () => {
     const newIndex = index + 1;
     setIndex(newIndex >= items.length ? 0 : newIndex);
   };
+
   useEffect(() => {
-    setActive(items[index])
-  },[index])
+    setActive(items[index]);
+  }, [index]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowLeft") {
+        handlePrevious();
+      } else if (event.key === "ArrowRight") {
+        handleNext();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [index]);
+
+  // What is displayed
   return (
     <div className="carousel">
-      <button onClick={handlePrevious} >Previous</button>
-      <div className='gameTile'>
-      <Item item={items[index]}/>
-      <img src={Image} className='gameImg'/>
+      <div className="gameSelector">
+        <button onClick={handlePrevious} className="prevButton">
+          Previous
+        </button>
+        <div className="gameTile">
+          <Item item={items[index]} />
+          <img src={Image} className="gameImg" />
+        </div>
+        <button onClick={handleNext} className="nextButton">
+          Next
+        </button>
       </div>
-      <button onClick={() => launchGame(`${items.path}/${items[index].exepath}`)}>launch</button>
-      <button onClick={handleNext}>Next</button>
+
+      <div className="launchBar">
+        <button
+          onClick={() => launchGame(`${items.path}/${items[index].exepath}`)}
+          className="launchButton"
+        >
+          launch
+        </button>
+      </div>
     </div>
   );
 };

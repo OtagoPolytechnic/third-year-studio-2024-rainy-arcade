@@ -67,7 +67,7 @@ app.get("/getGames", (req, res) => {
         });
         
         if (over18 == "true") {
-            console.log(over18)
+            // console.log(over18)
             const items = fs.readdirSync("./react-arcade/assets/games/old")
             items.forEach(item => {
                 const newItem = fs.readdirSync(`./react-arcade/assets/games/old/${item}`)

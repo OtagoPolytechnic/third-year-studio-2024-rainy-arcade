@@ -19,6 +19,7 @@ const App = () => {
   }, [active]);
   return (
     <div className="App">
+      <div className="shader"></div>
       <div>
         <div id="gameInfo">
           <Game />
@@ -36,6 +37,9 @@ const App = () => {
         {/* <div style={sectionStyle}>erf</div> */}
       </div>
     </div>
+
+
+
   );
 };
 
