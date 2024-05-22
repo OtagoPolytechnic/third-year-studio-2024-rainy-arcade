@@ -12,7 +12,7 @@ app.use(cors());
 
 // Initialize serial port 
 const port = new SerialPort({
-  path: 'COM5',
+  path: 'COM3',
   baudRate: 115200,
 });
 
@@ -23,10 +23,8 @@ port.on('error', function (err) {
 
 // POST route to receive data and send it through the serial port
 app.post("/data-send", async (req, res) => {
-  const { name, color } = req.body;
-  const message = `Name: ${name}, Color: ${color}\n`; // Format the message
-  console.log(message);
-  const color_message = `C${color}`;
+  const { name, color } = req.body; // Extracting name and color from the request body
+  const color_message = `C${color.slice(1)}`; // Correctly remove '#' from color for Arduino
   const name_message = `T${name}`;
 
   port.write(color_message, (err) => {
@@ -34,7 +32,6 @@ app.post("/data-send", async (req, res) => {
       return console.log('Error on write: ', err.message);
     }
     console.log('Color Message written:', color_message);
-    //res.send("Data sent over serial port.");
   });
   await sleep(1000);
   port.write(name_message, (err) => {
