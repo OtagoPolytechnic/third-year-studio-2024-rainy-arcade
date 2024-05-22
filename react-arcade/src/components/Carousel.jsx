@@ -70,28 +70,34 @@
 
 // export default Carousel;
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Item from './Game-Item';
 import { launchGame } from '../utils/Arcade-Backend-Functions';
+import "./App.scss";
 
-const Carousel = (items) => {
+const Carousel = ({items, setActive}) => {
     const [index, setIndex] = useState(0);
+    let Image = require("../assets/img/gb_cart.png");
     const handlePrevious = () => {
         const newIndex = index - 1;
         setIndex(newIndex < 0 ? items.items.length - 1 : newIndex);
     };
     
-console.log(`${items.path}/${items.items[index].exepath}`)
   const handleNext = () => {
     const newIndex = index + 1;
-    setIndex(newIndex >= items.items.length ? 0 : newIndex);
+    setIndex(newIndex >= items.length ? 0 : newIndex);
   };
-  
+  useEffect(() => {
+    setActive(items[index])
+  },[index])
   return (
     <div className="carousel">
-      <button onClick={handlePrevious}>Previous</button>
-      <Item item={items.items[index]}/>
-      <button onClick={() => launchGame(`${items.path}/${items.items[index].exepath}`)}>launch</button>
+      <button onClick={handlePrevious} >Previous</button>
+      <div className='gameTile'>
+      <Item item={items[index]}/>
+      <img src={Image} className='gameImg'/>
+      </div>
+      <button onClick={() => launchGame(`${items.path}/${items[index].exepath}`)}>launch</button>
       <button onClick={handleNext}>Next</button>
     </div>
   );

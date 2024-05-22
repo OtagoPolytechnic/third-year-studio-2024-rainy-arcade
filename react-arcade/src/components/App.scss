@@ -31,35 +31,45 @@ h2{
   color: #fff;
 }
 
-// GameInfo styling
-
-#gameInfo {
-}
-
-.gameTitle {
-  background-color: #12f70a;
+// Game Tile styling
+.gameInfo{
+  background-color: darkviolet;
 }
 
 .game-item{
   background-color: darkorange;
-  // background-image: url("/move/T/Space Fight/Space Fight.jfif");
+  width: 60vw;
+  height: fit-content;
 }
 
+.gameTile{
+  background-color: grey;
+  width: 60vw;
+  height: 60vh;
+}
+
+.gameImg{
+width: 30vw;
+height: auto;
+}
+
+// .gameImg{
+//       background-image: url("/../assets/img/gb_cart.png");
+//       height: 200px
+// }
 // End of GameInfo
 
 // // Carousel Styling
 
-// #carousel {
-//   // background-color: greenyellow;
-//   position: absolute;
-//   height: 200px;
-//   width: 810px;
-//   margin: auto;
-//   left: 0;
-//   right: 0;
-//   // top: 0;
-//   bottom: 0;
-// }
+.carousel {
+  flex-wrap: wrap;
+  background-color: greenyellow;
+justify-content: center ;
+}
+
+.carousel .img{
+  background-color: indianred;
+}
 
 // .noselect {
 //   -webkit-user-select: none;

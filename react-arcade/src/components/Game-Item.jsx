@@ -5,7 +5,9 @@ const Item = (item) => {
   const className = "";
   return (
     <div className={"game-item"}>
-      {item.item.game}
+      {/* Game Title taken from folder name */}
+      {item.item.game} 
+      {/* Game image taken from folder to go here */}
     </div>
   );
 };
