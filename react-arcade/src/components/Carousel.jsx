@@ -7,8 +7,8 @@ const Carousel = ({ items, setActive }) => {
   const [index, setIndex] = useState(0);
   let SnowSlam = require("../assets/img/snowSlam.png"); //Game 1
   let SacredKrow = require("../assets/img/sacredKrow.png"); //Game 2
-  let Image3 = require("../assets/img/neon_title.png"); //Game 3
-  let Image4 = require("../assets/img/logo_gb_cart.png"); // Game 4
+  let Image3 = require("../assets/img/comingSoon.gif"); //Game 3
+  let Image4 = require("../assets/img/comingSoon.gif"); // Game 4
 
   let imgarr = [SnowSlam, SacredKrow,Image3,Image4]
   const handlePrevious = () => {

@@ -26,7 +26,7 @@ body {
   background-repeat: no-repeat;
   background-size: contain;
   margin-left: 15%;
-  padding-top: 3%;
+  // padding-top: 3%;
   width: 75%;
   height: 30vh;
   // background-color: aqua;
@@ -75,46 +75,26 @@ h2 {
 // Game Tile styling
 
 #gameInfo {
-  // background-color: darkviolet;
   padding: 1%;
 }
 
 .gameSelector {
   display: flex;
-  // background-color: goldenrod;
   width: 80vw;
   margin: auto;
-  // justify-content: space-around;
+  justify-content: space-around;
 }
 
 .prevButton {
-  // width: 10vw;
-  // height: fit-content;
-  // display: inline-block;
-  // align-items:normal;
   display: none;
 }
 
 .nextButton {
-  // width: 10vw;
-  // height: fit-content;
-  // display: inline-block;
   display: none;
 }
 
 .launchBar {
-  // width: 80vw;
-  // background-color: darkgreen;
-  // align-items: center;
-  // margin: none;
   display: none;
-}
-
-.launchButton {
-  // width: 10vw;
-  // height: fit-content;
-  // display: block;
-  // margin: auto;
 }
 
 .game-item {
@@ -127,7 +107,6 @@ h2 {
 }
 
 .gameTile {
-  // background-color: grey;
   width: 60vw;
   height: 60vh;
   display: inline-block;
@@ -143,7 +122,7 @@ h2 {
   height: auto;
   border: 0.2rem solid #fff;
   border-radius: 2rem;
-  padding: 0.4em;
+  padding: 0.2em;
   box-shadow: 0 0 .2rem #fff,
             0 0 .2rem #fff,
             0 0 2rem #00ccff,
@@ -174,203 +153,3 @@ h2 {
       text-shadow: none;
   }    
 }
-
-// Carousel Styling
-
-.carousel {
-  // display: inline-block;
-  // flex-direction: column;
-  // justify-content: space-evenly;
-  // background-color: greenyellow;
-  // width: 100vw;
-  // margin-left: 5%;
-  // margin-right: 5%;
-  // padding-left: 10vw;
-  
-}
-
-// .noselect {
-//   -webkit-user-select: none;
-//   -khtml-user-select: none;
-//   -moz-user-select: none;
-//   -ms-user-select: none;
-//   user-select: none;
-// }
-
-// .arrow {
-//   position: absolute;
-//   width: 30px;
-//   height: 30px;
-//   background-color: white;
-//   text-align: center;
-//   font-size: 25px;
-//   border-radius: 50%;
-//   cursor: pointer;
-//   font-size: 20px;
-//   color: #42454615;
-//   line-height: 30px;
-//   margin-top: 85px;
-//   z-index: 1000;
-// }
-
-// .arrow-right {
-//   left: 780px;
-// }
-
-// .item {
-//   text-align: center;
-//   color: rgb(255, 255, 255);
-//   font-size: 40px;
-//   position: absolute;
-//   // background-image: url("/../assets/img/logo_gb_cart.png");
-//   // background-attachment: fixed;
-//   // background-repeat: no-repeat;
-//   content: url("/../assets/img/logo_gb_cart.png") / "game";
-//   // content: url("/../assets/img/gb_cart.png");
-//   transition: height 1s, width 1s, left 1s, margin-top 1s, line-height 1s,
-//     background-color 1s;
-// }
-
-// $level2-height: 150px;
-// $level2-width: 110px;
-// $level1-height: 180px;
-// $level1-width: 130px;
-// $level0-height: 200px;
-// $level0-width: 150px;
-
-// $level-2-left: 650px;
-// $level-1-left: 500px;
-// $level0-left: 330px;
-// $level1-left: 180px;
-// $level2-left: 50px;
-
-// .level-2 {
-//   height: $level2-height;
-//   width: $level2-width;
-//   line-height: $level2-height;
-//   // background-color: #228291;
-//   left: $level-2-left;
-//   margin-top: 25px;
-//   background-size: $level2-width $level2-height;
-// }
-
-// .level-1 {
-//   height: $level1-height;
-//   width: $level1-width;
-//   line-height: $level1-height;
-//   // background-color: #6796e5;
-//   left: $level-1-left;
-//   margin-top: 10px;
-//   background-size: $level1-width $level1-height;
-// }
-
-// .level0 {
-//   height: $level0-height;
-//   width: $level0-width;
-//   line-height: $level0-height;
-//   // background-color: #4ec9e1;
-//   left: $level0-left;
-//   background-size: $level0-width $level0-height;
-// }
-
-// .level1 {
-//   height: $level1-height;
-//   width: $level1-width;
-//   line-height: $level1-height;
-//   // background-color: #6796e5;
-//   margin-top: 10px;
-//   left: $level1-left;
-//   background-size: $level1-width $level1-height;
-// }
-
-// .level2 {
-//   height: $level2-height;
-//   width: $level2-width;
-//   line-height: $level2-height;
-//   // background-color: #228291;
-//   margin-top: 25px;
-//   left: $level2-left;
-//   background-size: $level2-width $level2-height;
-// }
-
-// .left-enter {
-//   opacity: 0;
-//   left: $level2-left - $level2-width;
-//   height: $level2-height - 30;
-//   width: $level2-width - 20;
-//   line-height: $level2-height - 30;
-//   margin-top: 40px;
-// }
-
-// .left-enter.left-enter-active {
-//   opacity: 1;
-//   left: $level2-left;
-//   height: $level2-height;
-//   width: $level2-width;
-//   line-height: $level2-height;
-//   margin-top: 25px;
-//   transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
-//     line-height 1s;
-// }
-
-// .left-leave {
-//   opacity: 1;
-//   left: $level-2-left;
-//   height: $level2-height;
-//   width: $level2-width;
-//   line-height: $level2-height;
-//   margin-top: 25px;
-// }
-
-// .left-leave.left-leave-active {
-//   left: $level-2-left + $level2-width + 20;
-//   opacity: 0;
-//   height: $level2-height - 30;
-//   line-height: 120px;
-//   margin-top: 40px;
-//   width: $level2-width - 20;
-//   transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
-//     line-height 1s;
-// }
-
-// .right-enter {
-//   opacity: 0;
-//   left: $level-2-left + $level2-width;
-//   height: $level2-height - 30;
-//   width: $level2-width - 20;
-//   line-height: $level2-height - 30;
-//   margin-top: 40px;
-// }
-
-// .right-enter.right-enter-active {
-//   left: $level-2-left;
-//   opacity: 1;
-//   height: $level2-height;
-//   margin-top: 25px;
-//   line-height: $level2-height;
-//   width: $level2-width;
-//   transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
-//     line-height 1s;
-// }
-
-// .right-leave {
-//   left: $level2-left;
-//   height: $level2-height;
-//   opacity: 1;
-//   margin-top: 25px;
-//   line-height: $level2-height;
-//   width: $level2-width;
-// }
-
-// .right-leave.right-leave-active {
-//   left: $level2-left - $level2-width;
-//   opacity: 0;
-//   height: $level2-height - 30;
-//   width: $level2-width - 20;
-//   line-height: $level2-height - 30;
-//   margin-top: 40px;
-//   transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
-//     line-height 1s;
-// }
-
-// // End of Carousel

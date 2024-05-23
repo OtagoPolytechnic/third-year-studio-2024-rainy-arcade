@@ -15,7 +15,6 @@ const App = () => {
     <div className="App">
       <div className="shader"></div>
       <div className="OPA"></div>
-      <div>
         <div id="gameInfo">
           <Game />
           {!games.length > 0 ? (
@@ -27,7 +26,6 @@ const App = () => {
             <div className="loading">Loading...</div>
           )}
         </div>
-      </div>
     </div>
   );
 };
