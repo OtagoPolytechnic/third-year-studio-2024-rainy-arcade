@@ -9,7 +9,6 @@ const app = express();
 dotenv.config();
 
 const PORT = process.env.PORT
-//repo directory e.g "D:/third-year-studio-2024-rainy-arcade" 
 const DIRECTORY = process.env.REPO_DIRECTORY
 let isRunning = false
 app.use(json())
@@ -59,7 +58,7 @@ app.get("/getGames", (req, res) => {
         items.forEach(item => {
             const newItem = fs.readdirSync(`./react-arcade/assets/games/young/${item}`)
             newItem.forEach(content => {
-                if (content.includes(".exe") && !content.includes("UnityCrashHandler32.exe")) {
+                if (content.includes(".exe") && content.includes(".png") && !content.includes("UnityCrashHandler32.exe")) {
                     exepath = `young/${item}/${content}`
                 }
             })
@@ -67,16 +66,19 @@ app.get("/getGames", (req, res) => {
         });
         
         if (over18 == "true") {
-            console.log(over18)
+            // console.log(over18)
             const items = fs.readdirSync("./react-arcade/assets/games/old")
             items.forEach(item => {
                 const newItem = fs.readdirSync(`./react-arcade/assets/games/old/${item}`)
                 newItem.forEach(content => {
-                    if (content.includes(".exe") && !content.includes("UnityCrashHandler32.exe")) {
+                    if (content.includes(".exe") && content.includes(".png") && !content.includes("UnityCrashHandler32.exe")) {
                         exepath = `old/${item}/${content}`
+                        
                     }
                 })
                 games.push({game: item, folderContents: newItem, exepath: exepath})
+                
+                
             });
         }
         res.status(200).json({path : "./react-arcade/assets/games", games: games})
