@@ -33,32 +33,32 @@ app.post('/executeShortcut', (req, res) => {
 
     const newDirectory = path.join(DIRECTORY, antiMicroPath);
 
-    process.chdir(newDirectory);
+    // process.chdir(newDirectory);
     
-    exec(`"../../../controller-select/load_profile.py"`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error executing shortcut: ${error}`);
-            res.status(500).send('Error executing shortcut');
-            isRunning = false;
-            process.chdir(DIRECTORY); // Ensure we switch back to the original directory
-            return;
-        }
+    // exec(`"../../../controller-select/load_profile.py"`, (error, stdout, stderr) => {
+    //     if (error) {
+    //         console.error(`Error executing shortcut: ${error}`);
+    //         res.status(500).send('Error executing shortcut');
+    //         isRunning = false;
+    //         process.chdir(DIRECTORY); // Ensure we switch back to the original directory
+    //         return;
+    //     }
 
-        if (stderr) {
-            console.error(`Error output from shortcut: ${stderr}`);
-            res.status(500).send('Error executing shortcut');
-            isRunning = false;
-            process.chdir(DIRECTORY); // Ensure we switch back to the original directory
-            return;
-        }
+    //     if (stderr) {
+    //         console.error(`Error output from shortcut: ${stderr}`);
+    //         res.status(500).send('Error executing shortcut');
+    //         isRunning = false;
+    //         process.chdir(DIRECTORY); // Ensure we switch back to the original directory
+    //         return;
+    //     }
 
-        console.log('Output from shortcut: successful');
+    //     console.log('Output from shortcut: successful');
 
-        // Switch back to the original directory
-        process.chdir(DIRECTORY);
+    //     // Switch back to the original directory
+    //     process.chdir(DIRECTORY);
 
         const absolutePath = path.join(DIRECTORY, relativePath);
-
+        console.log(`Executing shortcut: ${absolutePath}`);
         exec(`start "" "${absolutePath}"`, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing shortcut: ${error}`);
@@ -78,7 +78,7 @@ app.post('/executeShortcut', (req, res) => {
             isRunning = false;
             res.status(200).send('Shortcut executed successfully');
         });
-    });
+    // });
 });
 
 

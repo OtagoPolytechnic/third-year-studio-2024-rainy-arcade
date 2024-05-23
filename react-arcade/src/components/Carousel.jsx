@@ -3,7 +3,7 @@ import Item from "./Game-Item";
 import { launchGame } from "../utils/Arcade-Backend-Functions";
 import "./App.scss";
 
-const Carousel = ({ items, setActive }) => {
+const Carousel = ({ items, setActive, path }) => {
   const [index, setIndex] = useState(0);
   let Image1 = require("../assets/img/gb_cart.png"); //Game 1
   let Image2 = require("../assets/img/logo_gb_cart.png"); //Game 2
@@ -28,6 +28,7 @@ const Carousel = ({ items, setActive }) => {
 
   useEffect(() => {
     setActive(items[index]);
+    console.log(`${path}/${items[index].exepath}`);
   }, [index, items, setActive]);
 
   useEffect(() => {
@@ -65,7 +66,7 @@ const Carousel = ({ items, setActive }) => {
 
       <div className="launchBar">
         <button
-          onClick={() => launchGame(`${items.path}/${items[index].exepath}`)}
+          onClick={() => launchGame(`${path}/${items[index].exepath}`, `${path}/${items[index].antiMicroPath}`)}
           className="launchButton"
         >
           launch
