@@ -15,7 +15,7 @@ const App = () => {
   //   image: 'url("/../assets/img/gb_cart.png")'
   // };
   useEffect(() => {
-    console.log(active);
+    console.log("hello", active);
   }, [active]);
   return (
     <div className="App">
@@ -31,15 +31,11 @@ const App = () => {
           ) : (
             <div>Loading...</div>
           )}
-
         </div>
         {/* <div className="gameImg">erf</div> */}
         {/* <div style={sectionStyle}>erf</div> */}
       </div>
     </div>
-
-
-
   );
 };
 

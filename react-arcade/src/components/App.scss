@@ -56,23 +56,25 @@ h2 {
 }
 
 .gameSelector{
+  display: flex;
   background-color: goldenrod;
   width: 80vw;
+  // justify-content: space-around;
   animation: fadeIn 1s;
 }
 
 .prevButton {
   width: 10vw;
-  height: fit-content;
-  display: inline-block;
-  align-items:normal;
+  // height: fit-content;
+  // display: inline-block;
+  // align-items:normal;
 
 }
 
 .nextButton {
   width: 10vw;
-  height: fit-content;
-  display: inline-block;
+  // height: fit-content;
+  // display: inline-block;
 }
 
 .launchBar{
@@ -94,16 +96,15 @@ h2 {
   background-color: darkorange;
   width: 60vw;
   height: fit-content;
-  display: inline-block;
+  // display: inline-block;
   animation: fadeIn 1s;
-
 }
 
 .gameTile {
   background-color: grey;
   width: 60vw;
   height: 60vh;
-  display: inline-block;
+  // display: inline-block;
 }
 
 .gameTile img{
