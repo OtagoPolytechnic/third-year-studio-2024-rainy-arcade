@@ -10,15 +10,21 @@ const PORT = process.env.PORT || 3002;
 app.use(bodyParser.json());
 app.use(cors());
 
-// Initialize serial port 
-const port = new SerialPort({
-  path: 'COM5',
-  baudRate: 115200,
-});
+let portser; // Declare portser variable outside
 
-// Open errors will be emitted as an error event
-port.on('error', function (err) {
-  console.log('Error: ', err.message);
+SerialPort.list().then(ports => {
+  ports.forEach(function(port) {
+    if(port.vendorId == "2341") {
+      const COM_holder = port.path;
+      console.log(COM_holder); //COM4
+      // Initialize serial port 
+      portser = new SerialPort({ path:COM_holder, baudRate: 115200 });
+      // Open errors will be emitted as an error event
+      portser.on('error', function (err) {
+        console.log('Error: ', err.message);
+      });
+    }
+  });
 });
 
 // POST route to receive data and send it through the serial port
@@ -29,15 +35,20 @@ app.post("/data-send", async (req, res) => {
   const color_message = `C${color}`;
   const name_message = `${name}`;
 
-  port.write(color_message, (err) => {
+  if (!portser) {
+    return res.status(500).send("Serial port not initialized.");
+  }
+
+  portser.write(color_message, (err) => {
     if (err) {
       return console.log('Error on write: ', err.message);
     }
     console.log('Color Message written:', color_message);
-    //res.send("Data sent over serial port.");
   });
+  
   await sleep(1000);
-  port.write(name_message, (err) => {
+
+  portser.write(name_message, (err) => {
     if (err) {
       return console.log('Error on write: ', err.message);
     }
