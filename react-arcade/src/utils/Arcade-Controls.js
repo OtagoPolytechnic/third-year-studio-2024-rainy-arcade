@@ -20,7 +20,8 @@ export const generateItems = (buttonState, items, path, pressed, setPressed) => 
     }
     if (pressed) {
       setPressed(false);
-      launchGame(`${path}/${items[buttonState.active].exepath}`)
+      let antimicropath = `${path}/${items[buttonState.active].antiMicroPath}`
+      launchGame(`${path}/${items[buttonState.active].exepath}`, antimicropath)
     }
     return generatedItems;
   };
