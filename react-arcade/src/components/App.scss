@@ -1,243 +1,326 @@
 @import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
 
 body {
-  // background-image: url("/../assets/img/grid_ani.gif");  
+  background-image: url("/../assets/img/grid_ani.gif");
   // background-image: url("/../assets/img/dim_grid_ani.gif");
   background-repeat: no-repeat;
   background-size: cover;
   // background-image: url("/../assets/img/menu-background.png");
   // background-image: url("/../assets/img/dim-menu-background.png");
   // background-color: #000000;
+  overflow: hidden;
 }
 
+.shader{
+    background-color: #000;
+  height: 100vh;
+  width: 100vw;
+  opacity: 0.5;
+  z-index: -999;
+  position: absolute;
+}
+.App{
+  // background-color: #000;
+  // height: 100vh;
+  // width: 100vw;
+  // opacity: 0.5;
+  z-index: 999;
+
+}
 
 // OPA styling
 .OPA {
-  background-image: url("/../assets/img/neon_title.png") ;
+  background-image: url("/../assets/img/neon_title.png");
   background-repeat: no-repeat;
   background-size: contain;
   margin: auto;
   width: 50%;
-  height: 200px;;
+  height: 200px;
   // background-color: aqua;
 }
 
-.ageCheck{
-background-color: limegreen;
-text-align: center;
+.ageCheck {
+  background-color: limegreen;
+  text-align: center;
 }
 
-h2{
+h2 {
   color: #fff;
 }
 
-// GameInfo styling
+// Game Tile styling
 
-#gameInfo {
+
+.gameInfo {
+  background-color: darkviolet;
 }
 
-.gameTitle {
-  background-color: #12f70a;
+.gameSelector{
+  display: flex;
+  background-color: goldenrod;
+  width: 80vw;
+  // justify-content: space-around;
+  animation: fadeIn 1s;
+}
+
+.prevButton {
+  width: 10vw;
+  // height: fit-content;
+  // display: inline-block;
+  // align-items:normal;
+
+}
+
+.nextButton {
+  width: 10vw;
+  // height: fit-content;
+  // display: inline-block;
+}
+
+.launchBar{
+  width: 80vw;
+  background-color: darkgreen;
+  align-items: center;
+  margin: none;
+}
+
+.launchButton {
+  width: 10vw;
+  height: fit-content;
+  display: block;
+  margin: auto;
+
+}
+
+.game-item {
+  background-color: darkorange;
+  width: 60vw;
+  height: fit-content;
+  // display: inline-block;
+  animation: fadeIn 1s;
+}
+
+.gameTile {
+  background-color: grey;
+  width: 60vw;
+  height: 60vh;
+  // display: inline-block;
+}
+
+.gameTile img{
+  width: 100%;
+  height: 100%;
+}
+
+.gameImg {
+  width: 30vw;
+  height: auto;
 }
 
 // End of GameInfo
 
+// KeyFrames
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 // Carousel Styling
 
-#carousel {
-  // background-color: greenyellow;
-  position: absolute;
-  height: 200px;
-  width: 810px;
-  margin: auto;
-  left: 0;
-  right: 0;
-  // top: 0;
-  bottom: 0;
+.carousel {
+  // display: inline-block;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: greenyellow;
+  width: 100vw;
+  // margin-left: 5%;
+  // margin-right: 5%;
+  padding-left: 10vw;
 }
 
-.noselect {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
+// .noselect {
+//   -webkit-user-select: none;
+//   -khtml-user-select: none;
+//   -moz-user-select: none;
+//   -ms-user-select: none;
+//   user-select: none;
+// }
 
-.arrow {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background-color: white;
-  text-align: center;
-  font-size: 25px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 20px;
-  color: #42454615;
-  line-height: 30px;
-  margin-top: 85px;
-  z-index: 1000;
-}
+// .arrow {
+//   position: absolute;
+//   width: 30px;
+//   height: 30px;
+//   background-color: white;
+//   text-align: center;
+//   font-size: 25px;
+//   border-radius: 50%;
+//   cursor: pointer;
+//   font-size: 20px;
+//   color: #42454615;
+//   line-height: 30px;
+//   margin-top: 85px;
+//   z-index: 1000;
+// }
 
-.arrow-right {
-  left: 780px;
-}
+// .arrow-right {
+//   left: 780px;
+// }
 
-.item {
-  text-align: center;
-  color: rgb(255, 255, 255);
-  font-size: 40px;
-  position: absolute;
-  // background-image: url("/../assets/img/logo_gb_cart.png");
-  // background-attachment: fixed;
-  // background-repeat: no-repeat;
-  content: url("/../assets/img/logo_gb_cart.png") / "game";
-  // content: url("/../assets/img/gb_cart.png");
-  transition: height 1s, width 1s, left 1s, margin-top 1s, line-height 1s,
-    background-color 1s;
-}
+// .item {
+//   text-align: center;
+//   color: rgb(255, 255, 255);
+//   font-size: 40px;
+//   position: absolute;
+//   // background-image: url("/../assets/img/logo_gb_cart.png");
+//   // background-attachment: fixed;
+//   // background-repeat: no-repeat;
+//   content: url("/../assets/img/logo_gb_cart.png") / "game";
+//   // content: url("/../assets/img/gb_cart.png");
+//   transition: height 1s, width 1s, left 1s, margin-top 1s, line-height 1s,
+//     background-color 1s;
+// }
 
-$level2-height: 150px;
-$level2-width: 110px;
-$level1-height: 180px;
-$level1-width: 130px;
-$level0-height: 200px;
-$level0-width: 150px;
+// $level2-height: 150px;
+// $level2-width: 110px;
+// $level1-height: 180px;
+// $level1-width: 130px;
+// $level0-height: 200px;
+// $level0-width: 150px;
 
-$level-2-left: 650px;
-$level-1-left: 500px;
-$level0-left: 330px;
-$level1-left: 180px;
-$level2-left: 50px;
+// $level-2-left: 650px;
+// $level-1-left: 500px;
+// $level0-left: 330px;
+// $level1-left: 180px;
+// $level2-left: 50px;
 
-.level-2 {
-  height: $level2-height;
-  width: $level2-width;
-  line-height: $level2-height;
-  // background-color: #228291;
-  left: $level-2-left;
-  margin-top: 25px;
-  background-size: $level2-width $level2-height;
-}
+// .level-2 {
+//   height: $level2-height;
+//   width: $level2-width;
+//   line-height: $level2-height;
+//   // background-color: #228291;
+//   left: $level-2-left;
+//   margin-top: 25px;
+//   background-size: $level2-width $level2-height;
+// }
 
-.level-1 {
-  height: $level1-height;
-  width: $level1-width;
-  line-height: $level1-height;
-  // background-color: #6796e5;
-  left: $level-1-left;
-  margin-top: 10px;
-  background-size: $level1-width $level1-height;
-}
+// .level-1 {
+//   height: $level1-height;
+//   width: $level1-width;
+//   line-height: $level1-height;
+//   // background-color: #6796e5;
+//   left: $level-1-left;
+//   margin-top: 10px;
+//   background-size: $level1-width $level1-height;
+// }
 
-.level0 {
-  height: $level0-height;
-  width: $level0-width;
-  line-height: $level0-height;
-  // background-color: #4ec9e1;
-  left: $level0-left;
-  background-size: $level0-width $level0-height;
-}
+// .level0 {
+//   height: $level0-height;
+//   width: $level0-width;
+//   line-height: $level0-height;
+//   // background-color: #4ec9e1;
+//   left: $level0-left;
+//   background-size: $level0-width $level0-height;
+// }
 
-.level1 {
-  height: $level1-height;
-  width: $level1-width;
-  line-height: $level1-height;
-  // background-color: #6796e5;
-  margin-top: 10px;
-  left: $level1-left;
-  background-size: $level1-width $level1-height;
-}
+// .level1 {
+//   height: $level1-height;
+//   width: $level1-width;
+//   line-height: $level1-height;
+//   // background-color: #6796e5;
+//   margin-top: 10px;
+//   left: $level1-left;
+//   background-size: $level1-width $level1-height;
+// }
 
-.level2 {
-  height: $level2-height;
-  width: $level2-width;
-  line-height: $level2-height;
-  // background-color: #228291;
-  margin-top: 25px;
-  left: $level2-left;
-  background-size: $level2-width $level2-height;
-}
+// .level2 {
+//   height: $level2-height;
+//   width: $level2-width;
+//   line-height: $level2-height;
+//   // background-color: #228291;
+//   margin-top: 25px;
+//   left: $level2-left;
+//   background-size: $level2-width $level2-height;
+// }
 
-.left-enter {
-  opacity: 0;
-  left: $level2-left - $level2-width;
-  height: $level2-height - 30;
-  width: $level2-width - 20;
-  line-height: $level2-height - 30;
-  margin-top: 40px;
-}
+// .left-enter {
+//   opacity: 0;
+//   left: $level2-left - $level2-width;
+//   height: $level2-height - 30;
+//   width: $level2-width - 20;
+//   line-height: $level2-height - 30;
+//   margin-top: 40px;
+// }
 
-.left-enter.left-enter-active {
-  opacity: 1;
-  left: $level2-left;
-  height: $level2-height;
-  width: $level2-width;
-  line-height: $level2-height;
-  margin-top: 25px;
-  transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
-    line-height 1s;
-}
+// .left-enter.left-enter-active {
+//   opacity: 1;
+//   left: $level2-left;
+//   height: $level2-height;
+//   width: $level2-width;
+//   line-height: $level2-height;
+//   margin-top: 25px;
+//   transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
+//     line-height 1s;
+// }
 
-.left-leave {
-  opacity: 1;
-  left: $level-2-left;
-  height: $level2-height;
-  width: $level2-width;
-  line-height: $level2-height;
-  margin-top: 25px;
-}
+// .left-leave {
+//   opacity: 1;
+//   left: $level-2-left;
+//   height: $level2-height;
+//   width: $level2-width;
+//   line-height: $level2-height;
+//   margin-top: 25px;
+// }
 
-.left-leave.left-leave-active {
-  left: $level-2-left + $level2-width + 20;
-  opacity: 0;
-  height: $level2-height - 30;
-  line-height: 120px;
-  margin-top: 40px;
-  width: $level2-width - 20;
-  transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
-    line-height 1s;
-}
+// .left-leave.left-leave-active {
+//   left: $level-2-left + $level2-width + 20;
+//   opacity: 0;
+//   height: $level2-height - 30;
+//   line-height: 120px;
+//   margin-top: 40px;
+//   width: $level2-width - 20;
+//   transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
+//     line-height 1s;
+// }
 
-.right-enter {
-  opacity: 0;
-  left: $level-2-left + $level2-width;
-  height: $level2-height - 30;
-  width: $level2-width - 20;
-  line-height: $level2-height - 30;
-  margin-top: 40px;
-}
+// .right-enter {
+//   opacity: 0;
+//   left: $level-2-left + $level2-width;
+//   height: $level2-height - 30;
+//   width: $level2-width - 20;
+//   line-height: $level2-height - 30;
+//   margin-top: 40px;
+// }
 
-.right-enter.right-enter-active {
-  left: $level-2-left;
-  opacity: 1;
-  height: $level2-height;
-  margin-top: 25px;
-  line-height: $level2-height;
-  width: $level2-width;
-  transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
-    line-height 1s;
-}
+// .right-enter.right-enter-active {
+//   left: $level-2-left;
+//   opacity: 1;
+//   height: $level2-height;
+//   margin-top: 25px;
+//   line-height: $level2-height;
+//   width: $level2-width;
+//   transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
+//     line-height 1s;
+// }
 
-.right-leave {
-  left: $level2-left;
-  height: $level2-height;
-  opacity: 1;
-  margin-top: 25px;
-  line-height: $level2-height;
-  width: $level2-width;
-}
+// .right-leave {
+//   left: $level2-left;
+//   height: $level2-height;
+//   opacity: 1;
+//   margin-top: 25px;
+//   line-height: $level2-height;
+//   width: $level2-width;
+// }
 
-.right-leave.right-leave-active {
-  left: $level2-left - $level2-width;
-  opacity: 0;
-  height: $level2-height - 30;
-  width: $level2-width - 20;
-  line-height: $level2-height - 30;
-  margin-top: 40px;
-  transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
-    line-height 1s;
-}
+// .right-leave.right-leave-active {
+//   left: $level2-left - $level2-width;
+//   opacity: 0;
+//   height: $level2-height - 30;
+//   width: $level2-width - 20;
+//   line-height: $level2-height - 30;
+//   margin-top: 40px;
+//   transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s,
+//     line-height 1s;
+// }
 
-// End of Carousel
+// // End of Carousel
