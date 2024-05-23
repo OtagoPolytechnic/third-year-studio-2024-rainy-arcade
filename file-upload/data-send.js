@@ -33,7 +33,7 @@ app.post("/data-send", async (req, res) => {
   const message = `Name: ${name}, Color: ${color}\n`; // Format the message
   console.log(message);
   const color_message = `C${color}`;
-  const name_message = `${name}`;
+  const name_message = `T${name}`;
 
   if (!portser) {
     return res.status(500).send("Serial port not initialized.");
