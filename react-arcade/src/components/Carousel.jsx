@@ -5,12 +5,12 @@ import "./App.scss";
 
 const Carousel = ({ items, setActive }) => {
   const [index, setIndex] = useState(0);
-  let Image1 = require("../assets/img/gb_cart.png"); //Game 1
-  let Image2 = require("../assets/img/logo_gb_cart.png"); //Game 2
-  let Image3 = require("../assets/img/gb_cart.png"); //Game 3
+  let SnowSlam = require("../assets/img/snowSlam.png"); //Game 1
+  let SacredKrow = require("../assets/img/sacredKrow.png"); //Game 2
+  let Image3 = require("../assets/img/neon_title.png"); //Game 3
   let Image4 = require("../assets/img/logo_gb_cart.png"); // Game 4
 
-  let imgarr = [Image1, Image2, Image3, Image4]
+  let imgarr = [SnowSlam, SacredKrow,Image3,Image4]
   const handlePrevious = () => {
     const newIndex = index - 1;
     setIndex(newIndex < 0 ? items.length - 1 : newIndex);
@@ -52,14 +52,14 @@ const Carousel = ({ items, setActive }) => {
     <div className="carousel">
       <div className="gameSelector">
         <button onClick={handlePrevious} className="prevButton">
-          Previous
+          Previous HIDDEN
         </button>
         <div className="gameTile">
           <Item item={items[index]} />
           <img src={imgarr[index]} className="gameImg" />
         </div>
         <button onClick={handleNext} className="nextButton">
-          Next
+          Next HIDDEN
         </button>
       </div>
 
@@ -68,7 +68,7 @@ const Carousel = ({ items, setActive }) => {
           onClick={() => launchGame(`${items.path}/${items[index].exepath}`)}
           className="launchButton"
         >
-          launch
+          launch HIDDEN
         </button>
       </div>
     </div>
