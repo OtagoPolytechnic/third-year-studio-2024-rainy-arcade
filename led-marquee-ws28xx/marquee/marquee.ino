@@ -10,7 +10,7 @@ String textString;
 String colorString;
 
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(NCOLUMNS, NHEIGHT, NEOPIXEL_PIN,
-                                               NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS + NEO_MATRIX_ZIGZAG,
+                                               NEO_MATRIX_BOTTOM + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS + NEO_MATRIX_ZIGZAG,
                                                NEO_GRB + NEO_KHZ800);
 
 byte red = 255;
@@ -44,10 +44,12 @@ void loop() {
     String incomingData = Serial.readString();
     if (incomingData.charAt(0) == 'T') {
       textString = incomingData.substring(1);
+      Serial.println(textString);
       currentState = DISPLAYING_TEXT;
       resetTextDisplay();  // Reset display for new text
     } else if (incomingData.charAt(0) == 'C' && incomingData.charAt(1) == '#') {
       colorString = incomingData.substring(2);
+      Serial.println(colorString);
       hexToRGB(colorString, red, green, blue);
       matrix.setTextColor(matrix.Color(red, green, blue)); // Update text color immediately
     }

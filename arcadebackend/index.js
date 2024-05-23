@@ -8,7 +8,6 @@ const app = express();
 dotenv.config();
 
 const PORT = process.env.PORT
-//repo directory e.g "D:/third-year-studio-2024-rainy-arcade" 
 const DIRECTORY = process.env.REPO_DIRECTORY
 let isRunning = false
 app.use(json())
@@ -142,6 +141,7 @@ app.get("/getGames", (req, res) => {
                         antiMicroPath: `${rating}/${game}`
                     });
                 }
+
             });
         }
 
