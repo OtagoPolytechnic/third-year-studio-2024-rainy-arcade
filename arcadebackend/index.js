@@ -127,7 +127,7 @@ app.get("/getGames", (req, res) => {
                             const folderContents = fs.readdirSync(contentPath);
 
                             folderContents.forEach(file => {
-                                if (file.endsWith(".exe") && file !== "UnityCrashHandler64.exe") {
+                                if (file.endsWith(".exe") && !file.startsWith("UnityCrashHandler")) {
                                     exepath = `${rating}/${game}/${contentDirent.name}/${file}`;
                                 }
                             });
