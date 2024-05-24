@@ -8,9 +8,6 @@ const App = () => {
   const [path, setPath] = useState("");
   const [active, setActive] = useState({});
 
-  useEffect(() => {
-    console.log("hello", active);
-  }, [active]);
   return (
     <div className="App">
       <div className="shader"></div>
@@ -21,7 +18,7 @@ const App = () => {
             <Ageform setGames={setGames} setPath={setPath} />
           ) : null}
           {games.length > 0 ? (
-            <Carousel items={games} setActive={setActive} />
+            <Carousel items={games} setActive={setActive} path={path} />
           ) : (
             <div className="loading">Loading...</div>
           )}
