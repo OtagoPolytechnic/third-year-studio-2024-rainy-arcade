@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Ageform from "./components/ageform";
 import Carousel from "./components/Carousel";
 import Game from "./components/Game";
-import Item from "./components/Game-Item";
+// import Item from "./components/Game-Item";
 const App = () => {
   const [games, setGames] = useState([]);
   const [path, setPath] = useState("");
@@ -11,7 +11,7 @@ const App = () => {
   return (
     <div className="App">
       <div className="shader"></div>
-      <div>
+      <div className="OPA"></div>
         <div id="gameInfo">
           <Game />
           {!games.length > 0 ? (
@@ -20,10 +20,9 @@ const App = () => {
           {games.length > 0 ? (
             <Carousel items={games} setActive={setActive} path={path} />
           ) : (
-            <div>Loading...</div>
+            <div className="loading">Loading...</div>
           )}
         </div>
-      </div>
     </div>
   );
 };
