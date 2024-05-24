@@ -91,6 +91,8 @@ app.get("/getGames", (req, res) => {
         const basePath = "./move";
         let breakloop = false;
 
+        
+
         // Ensure the esrb rating is valid
         if (!ratings.includes(esrb)) {
             return res.status(400).json({ error: "Invalid ESRB rating" });

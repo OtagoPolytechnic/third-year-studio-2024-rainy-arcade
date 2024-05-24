@@ -11,6 +11,10 @@ const Ageform = ({setGames, setPath}) => {
     }, [index]);
 
     useEffect(() => {
+        getGames(setGames, setPath, "AO")
+    },[])
+
+    useEffect(() => {
         const keydown = (e) => {
             if(e.key === "ArrowUp"){
                 if(indexRef.current >= ratings.length -1){

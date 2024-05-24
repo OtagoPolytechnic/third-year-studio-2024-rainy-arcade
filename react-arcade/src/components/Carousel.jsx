@@ -21,6 +21,10 @@ const Carousel = ({ items, setActive, path }) => {
     });
   };
 
+  useEffect(() => {
+    console.log(items)
+    console.log(`${path}/${items[0].exepath}`)
+  }, [items])
   const handleNext = () => {
     const newIndex = index + 1;
     setIndex(newIndex >= items.length ? 0 : newIndex);
@@ -38,7 +42,7 @@ const Carousel = ({ items, setActive, path }) => {
       } else if (event.key === "ArrowRight") {
         handleNext();
       } else if (event.key === "Enter"){
-        launchGame(`${items.path}/${items[index].exepath}`)
+        launchGame(`${path}/${items[index].exepath}`, `${path}/${items[index].antiMicroPath}`)
       }
     };
 
@@ -46,7 +50,7 @@ const Carousel = ({ items, setActive, path }) => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [index]);
+  }, [index, items]);
 
   // What is displayed
   return (
