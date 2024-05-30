@@ -35,7 +35,8 @@ void lockScreen() {
   Serial.println("Card recognized. Locking screen.");
   Keyboard.press(KEY_LEFT_GUI);  // Press the left Windows key.
   Keyboard.press('l');           // Press the "l" key.
-  Keyboard.releaseAll();         // Release all keys.
+  Keyboard.releaseAll();
+  delay(200);         // Release all keys.
   screenLocked = true;
 }
 
@@ -44,6 +45,7 @@ void unlockScreen() {
   Keyboard.print("23990");       // Change this value to your Windows PIN/Password.
   Keyboard.press(Enter);         // Press the Enter key to submit the PIN/Password
   Keyboard.releaseAll();
+  delay(200);
   screenLocked = false;
 }
 
