@@ -9,8 +9,12 @@
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 char Enter = KEY_RETURN;  // Return key is declared as Enter.
 String readid;
-String cards[] = {"3A3D9D9E"};  // Change this value to the UID of your card.
-int numberOfCards = sizeof(cards);
+const String cards[] = {
+  "3A3D9D9E",
+  "3AF3BE9E",
+  "E222CF1D"
+  };  // Change this value to the UID of your card.
+int numberOfCards = (sizeof(cards) / sizeof(cards[0]));
 bool screenLocked = false;
 
 void setup() {
@@ -43,7 +47,7 @@ void lockScreen() {
 
 void unlockScreen() {
   Serial.println("Card recognized. Unlocking screen.");
-  Keyboard.print("23990");       // Change this value to your Windows PIN/Password.
+  Keyboard.print("Cabinet24");       // Change this value to your Windows PIN/Password.
   Keyboard.press(Enter);         // Press the Enter key to submit the PIN/Password
   Keyboard.releaseAll();
   delay(200);
