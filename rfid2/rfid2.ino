@@ -63,6 +63,7 @@ bool isCardValid(String cardID) {
 }
 
 void loop() {
+  // Continuously check for new RFID cards
   if (!mfrc522.PICC_IsNewCardPresent()) {
     return;
   }
