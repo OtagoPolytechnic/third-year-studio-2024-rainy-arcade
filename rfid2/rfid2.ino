@@ -26,14 +26,13 @@ void setup() {
 }
 
 void temp(byte *buffer, byte bufferSize) {
-  // Function to store card UID as a string datatype.
-  readid = "";
+  readid = ""; // Clear previous UID
   for (byte i = 0; i < bufferSize; i++) {
     readid = readid + String(buffer[i], HEX);
   }
-  readid.toUpperCase(); // Ensure the UID is in uppercase
+  readid.toUpperCase(); // Convert to upper case
   Serial.print("Card UID: ");
-  Serial.println(readid);
+  Serial.println(readid);  // Print the UID
 }
 
 void lockScreen() {
