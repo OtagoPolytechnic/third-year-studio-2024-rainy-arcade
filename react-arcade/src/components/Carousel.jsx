@@ -37,9 +37,9 @@ const Carousel = ({ items, setActive, path }) => {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "ArrowLeft", "a") {
+      if (event.key === "ArrowLeft") {
         handlePrevious();
-      } else if (event.key === "ArrowRight", "d") {
+      } else if (event.key === "ArrowRight") {
         handleNext();
       } else if (event.key === "Enter"){
         launchGame(`${path}/${items[index].exepath}`, `${path}/${items[index].antiMicroPath}`)
