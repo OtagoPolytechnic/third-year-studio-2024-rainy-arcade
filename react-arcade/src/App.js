@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Ageform from "./components/ageform";
 import Carousel from "./components/Carousel";
-import Game from "./components/Game";
 // import Item from "./components/Game-Item";
 const App = () => {
   const [games, setGames] = useState([]);
@@ -13,7 +12,6 @@ const App = () => {
       <div className="shader"></div>
       <div className="OPA"></div>
         <div id="gameInfo">
-          <Game />
           {!games.length > 0 ? (
             <Ageform setGames={setGames} setPath={setPath} />
           ) : null}

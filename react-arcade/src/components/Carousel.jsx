@@ -22,7 +22,6 @@ const Carousel = ({ items, setActive, path }) => {
   };
 
   useEffect(() => {
-    console.log(items)
     console.log(`${path}/${items[0].exepath}`)
   }, [items])
   const handleNext = () => {
@@ -32,7 +31,6 @@ const Carousel = ({ items, setActive, path }) => {
 
   useEffect(() => {
     setActive(items[index]);
-    console.log(`${path}/${items[index].exepath}`);
   }, [index, items, setActive]);
 
   useEffect(() => {

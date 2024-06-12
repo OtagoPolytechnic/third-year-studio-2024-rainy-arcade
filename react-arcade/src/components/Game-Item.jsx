@@ -1,8 +1,6 @@
 import "./App.scss";
 
 const Item = (item) => {
-  // console.log(item)
-  const className = "";
   return (
     <div className={"game-item"}>
       {/* Game Title taken from folder name */}
