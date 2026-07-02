@@ -7,13 +7,22 @@ import dotenv from "dotenv";
 const app = express();
 dotenv.config();
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3001
 const DIRECTORY = process.env.REPO_DIRECTORY
 let isRunning = false
 app.use(json())
 app.use(cors());
 
-process.chdir(DIRECTORY);
+if (!DIRECTORY) {
+    console.error('REPO_DIRECTORY is not set in .env');
+    // Do not exit the process; allow the server to start for linting/tests, but many routes will fail.
+} else {
+    try {
+        process.chdir(DIRECTORY);
+    } catch (err) {
+        console.error(`Failed to chdir to REPO_DIRECTORY (${DIRECTORY}):`, err.message);
+    }
+}
 
 app.post('/executeShortcut', (req, res) => {
     if (isRunning) {
@@ -31,18 +40,27 @@ app.post('/executeShortcut', (req, res) => {
         return;
     }
 
-    const newDirectory = path.join(DIRECTORY, antiMicroPath);
+    const newDirectory = path.join(DIRECTORY || '.', antiMicroPath);
 
-    // process.chdir(newDirectory);
-    
-    // exec(`"../../../controller-select/load_profile.py"`, (error, stdout, stderr) => {
-    //     if (error) {
-    //         console.error(`Error executing shortcut: ${error}`);
-    //         res.status(500).send('Error executing shortcut');
-    //         isRunning = false;
-    //         process.chdir(DIRECTORY); // Ensure we switch back to the original directory
-    //         return;
-    //     }
+    try {
+        process.chdir(newDirectory);
+    } catch (err) {
+        console.error(`Failed to chdir to antiMicroPath (${newDirectory}):`, err.message);
+        res.status(500).send('Failed to change directory to antiMicroPath');
+        isRunning = false;
+        return;
+    }
+
+    // Run the profile loader. Prepend 'python' so the script is executed by Python on the host.
+    // If the script is executable, adjust as needed on the target environment.
+    exec(`python "../../../controller-select/load_profile.py"`, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing shortcut: ${error}`);
+            res.status(500).send('Error executing shortcut');
+            isRunning = false;
+            try { process.chdir(DIRECTORY || '.'); } catch (e) {}
+            return;
+        }
 
     //     if (stderr) {
     //         console.error(`Error output from shortcut: ${stderr}`);
@@ -57,13 +75,16 @@ app.post('/executeShortcut', (req, res) => {
     //     // Switch back to the original directory
     //     process.chdir(DIRECTORY);
 
-        const absolutePath = path.join(DIRECTORY, relativePath);
+        const absolutePath = path.resolve(DIRECTORY || '.', relativePath);
         console.log(`Executing shortcut: ${absolutePath}`);
-        exec(`start "" "${absolutePath}"`, (error, stdout, stderr) => {
+        // Use cmd.exe start on Windows to launch the .exe without blocking the Node process.
+        // On non-Windows platforms this will need adjustment.
+        exec(`cmd /c start "" "${absolutePath}"`, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing shortcut: ${error}`);
                 res.status(500).send('Error executing shortcut');
                 isRunning = false;
+                try { process.chdir(DIRECTORY || '.'); } catch (e) {}
                 return;
             }
 
@@ -76,9 +97,10 @@ app.post('/executeShortcut', (req, res) => {
 
             console.log(`Output from shortcut: ${stdout}`);
             isRunning = false;
+            try { process.chdir(DIRECTORY || '.'); } catch (e) {}
             res.status(200).send('Shortcut executed successfully');
         });
-    // });
+    });
 });
 
 
@@ -88,15 +110,14 @@ app.get("/getGames", (req, res) => {
         const esrb = req.query.esrb;
         const ratings = ["E", "E10+", "T", "M", "AO"];
         const games = [];
-        const basePath = "./move";
+        // Resolve the move folder relative to the repository directory when available,
+        // otherwise assume the repo root is the parent of the backend folder.
+        const basePath = path.resolve(DIRECTORY || path.join(process.cwd(), '..'), 'move');
         let breakloop = false;
 
         
 
-        // Ensure the esrb rating is valid
-        if (!ratings.includes(esrb)) {
-            return res.status(400).json({ error: "Invalid ESRB rating" });
-        }
+        // ESRB validation skipped — missing or invalid `esrb` will return games from all ratings
         // Loop through the ratings up to the selected ESRB rating
         for (const rating of ratings) {
             const ratingPath = `${basePath}/${rating}`;
@@ -111,6 +132,11 @@ app.get("/getGames", (req, res) => {
             } 
 
             // Read the games directory for the current rating
+            if (!fs.existsSync(ratingPath)) {
+                // skip missing rating folders
+                return;
+            }
+
             const gamesDir = fs.readdirSync(ratingPath, { withFileTypes: true });
 
             gamesDir.forEach(gameDirent => {
